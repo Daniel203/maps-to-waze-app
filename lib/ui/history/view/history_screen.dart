@@ -1,0 +1,18 @@
+import 'package:flutter/material.dart';
+import 'package:maps_to_waze/ui/core/ui/custom_app_bar.dart';
+
+class HistoryScreen extends StatefulWidget {
+  const HistoryScreen({super.key});
+
+  @override
+  State<HistoryScreen> createState() => _HistoryScreenState();
+}
+
+class _HistoryScreenState extends State<HistoryScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: CustomAppBar(),
+      body: SafeArea(child: Center(child: Text("History"))));
+  }
+}

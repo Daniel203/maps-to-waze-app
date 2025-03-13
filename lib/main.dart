@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:logging/logging.dart';
-import 'package:maps_to_waze/config/dependencies.dart';
 import 'package:maps_to_waze/routing/router.dart';
-import 'package:provider/provider.dart';
+import 'main_dev.dart' as development;
 
 void main() {
-  Logger.root.level = Level.ALL;
-  runApp(MultiProvider(providers: providers, child: const MainApp()));
+  // Run development environment by default
+  development.main();
 }
 
 class MainApp extends StatelessWidget {
@@ -14,6 +12,6 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(routerConfig: router(),);
+    return MaterialApp.router(routerConfig: router());
   }
 }
