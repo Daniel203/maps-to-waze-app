@@ -8,8 +8,8 @@ List<SingleChildWidget> get providersDev {
   return [
     Provider.value(
       value: ApiClient(
-        host: ConfigProd.backendHost,
-        port: ConfigProd.backendPort,
+        host: ConfigDev.backendHost,
+        port: ConfigDev.backendPort,
       ),
     ),
     Provider(
@@ -35,3 +35,4 @@ List<SingleChildWidget> get providersProd {
     ),
   ];
 }
+

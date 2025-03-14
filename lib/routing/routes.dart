@@ -1,5 +1,6 @@
 abstract final class Routes {
-  static const home = "/";
+  static const main = "/";
+  static const home = "/home";
   static const history = "/history"; 
 }
 

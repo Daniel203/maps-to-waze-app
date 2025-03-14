@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_command/flutter_command.dart';
 import 'package:maps_to_waze/ui/core/ui/custom_app_bar.dart';
-import 'package:maps_to_waze/ui/home/view_models/home_viewmodel.dart';
+import 'package:maps_to_waze/ui/home/view_model/home_viewmodel.dart';
 
 class HomeScreen extends StatefulWidget {
   final HomeViewModel viewModel;
@@ -22,23 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(),
-      body: SafeArea(
-        top: true,
-        bottom: true,
-        child: CommandBuilder(
-          command: widget.viewModel.load,
-          whileExecuting:
-              (_, _, _) => Center(child: CircularProgressIndicator()),
-          onData: (_, _, _) => Center(child: Text("Finished")),
-          onError:
-              (_, error, _, _) => Column(
-                children: [
-                  Text('An Error has occurred!'),
-                  Text(error.toString()),
-                ],
-              ),
-        ),
-      ),
+      body: SafeArea(child: Center(child: Text("Home"))),
     );
   }
 }

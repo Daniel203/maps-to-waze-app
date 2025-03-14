@@ -4,10 +4,12 @@ import 'package:maps_to_waze/routing/routes.dart';
 import 'package:maps_to_waze/ui/core/ui/custom_nav_bar.dart';
 import 'package:maps_to_waze/ui/history/view/history_screen.dart';
 import 'package:maps_to_waze/ui/home/view/home_screen.dart';
-import 'package:maps_to_waze/ui/home/view_models/home_viewmodel.dart';
+import 'package:maps_to_waze/ui/home/view_model/home_viewmodel.dart';
+import 'package:maps_to_waze/ui/main/view/main_screen.dart';
+import 'package:maps_to_waze/ui/main/view_model/main_viewmodel.dart';
 import 'package:provider/provider.dart';
 
-final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>(
+final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>(
   debugLabel: 'root',
 );
 final GlobalKey<NavigatorState> _homeNavigatorKey = GlobalKey<NavigatorState>(
@@ -17,10 +19,19 @@ final GlobalKey<NavigatorState> _historyNavigatorKey =
     GlobalKey<NavigatorState>(debugLabel: 'historyNav');
 
 GoRouter router() => GoRouter(
-  navigatorKey: _rootNavigatorKey,
-  initialLocation: Routes.home,
+  navigatorKey: rootNavigatorKey,
+  initialLocation: Routes.main,
   debugLogDiagnostics: true,
   routes: [
+    GoRoute(
+      path: Routes.main,
+      builder: (context, state) {
+        final viewModel = MainViewModel(
+          urlConversionRepository: context.read(),
+        );
+        return MainScreen(viewModel: viewModel);
+      },
+    ),
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {
         return CustomNavBar(navigationShell: navigationShell);
