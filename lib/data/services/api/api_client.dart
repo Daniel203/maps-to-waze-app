@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:maps_to_waze/data/services/url_conversion/models/url_conversion_api_model.dart';
+import 'package:maps_to_waze/data/services/api/models/url_conversion_api_model.dart';
 import 'package:result_dart/result_dart.dart';
 
 class ApiClient {

@@ -52,7 +52,9 @@ class MainViewModel extends ChangeNotifier {
       return Failure(Exception("Context not found"));
     }
 
-    context.go(Routes.main);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.go(Routes.main);
+    });
 
     if (url.isEmpty) {
       return Failure(Exception("Url not found"));
@@ -62,9 +64,9 @@ class MainViewModel extends ChangeNotifier {
       var result = await _getConvertedUrl(url);
 
       // First return to the home page to make sure the user is not stucked in a empty page
-      if (context.mounted) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
         context.go(Routes.home);
-      }
+      });
 
       var uri = result.getOrThrow();
 

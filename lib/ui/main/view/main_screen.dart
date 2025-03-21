@@ -25,22 +25,23 @@ class _MainScreenState extends State<MainScreen> {
       body: SafeArea(
         top: true,
         bottom: true,
-        child: CommandBuilder(
-          command: widget.viewModel.convertUrlAndRedirect,
-          whileExecuting: (_, _, _) {
-            return Center(child: CircularProgressIndicator());
-          },
-          onData: (_, _, _) {
-            return Center(child: Text("Finished"));
-          },
-          onError:
-              (_, error, _, _) => Column(
-                children: [
-                  Text('An Error has occurred!'),
-                  Text(error.toString()),
-                ],
-              ),
-        ),
+        child: Center(child: CircularProgressIndicator()),
+        // child: CommandBuilder(
+        //   command: widget.viewModel.convertUrlAndRedirect,
+        //   whileExecuting: (_, _, _) {
+        //     return Center(child: CircularProgressIndicator());
+        //   },
+        //   onData: (_, _, _) {
+        //     return Center(child: CircularProgressIndicator());
+        //   },
+        //   onError:
+        //       (_, error, _, _) => Column(
+        //         children: [
+        //           Text('An Error has occurred!'),
+        //           Text(error.toString()),
+        //         ],
+        //       ),
+        // ),
       ),
     );
   }

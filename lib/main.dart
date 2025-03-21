@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:maps_to_waze/routing/router.dart';
-import 'main_dev.dart' as development;
+import 'main_prod.dart' as production;
 
 void main() {
   // Run development environment by default
-  development.main();
+  production.main();
 }
 
 class MainApp extends StatelessWidget {
