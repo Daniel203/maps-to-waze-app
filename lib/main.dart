@@ -1,10 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:maps_to_waze/routing/router.dart';
-import 'main_prod.dart' as production;
+import 'package:maps_to_waze/routing/routes.dart';
+import 'package:receive_sharing_intent/receive_sharing_intent.dart';
+import 'main_dev.dart' as development;
 
 void main() {
   // Run development environment by default
-  production.main();
+  development.main();
 }
 
 class MainApp extends StatelessWidget {
@@ -12,6 +16,31 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(routerConfig: router());
+    final goRouter = router();
+
+    // Receive links when the app is closed
+    ReceiveSharingIntent.instance.getInitialMedia().then((sharedUrls) {
+      if (sharedUrls.isNotEmpty) {
+        var sharedUrl = sharedUrls.first;
+        var base64EncodedUrl = base64Url.encode(
+          utf8.encode(sharedUrl.toString()),
+        );
+        goRouter.go(Routes.convertUrl(base64EncodedUrl));
+      }
+    });
+
+    // Receive links when the app is already open
+    ReceiveSharingIntent.instance.getMediaStream().listen((sharedUrls) {
+      if (sharedUrls.isNotEmpty) {
+        var sharedUrl = sharedUrls.first;
+        var base64EncodedUrl = base64Url.encode(
+          utf8.encode(sharedUrl.toString()),
+        );
+        goRouter.go(Routes.convertUrl(base64EncodedUrl));
+        ReceiveSharingIntent.instance.reset();
+      }
+    });
+
+    return MaterialApp.router(routerConfig: goRouter);
   }
 }

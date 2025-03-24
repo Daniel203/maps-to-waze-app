@@ -1,17 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:maps_to_waze/routing/routes.dart';
+import 'package:maps_to_waze/ui/convert_url/view/convert_url_screen.dart';
+import 'package:maps_to_waze/ui/convert_url/view_model/convert_url_viewmodel.dart';
 import 'package:maps_to_waze/ui/core/ui/custom_nav_bar.dart';
 import 'package:maps_to_waze/ui/history/view/history_screen.dart';
 import 'package:maps_to_waze/ui/home/view/home_screen.dart';
 import 'package:maps_to_waze/ui/home/view_model/home_viewmodel.dart';
-import 'package:maps_to_waze/ui/main/view/main_screen.dart';
-import 'package:maps_to_waze/ui/main/view_model/main_viewmodel.dart';
 import 'package:provider/provider.dart';
 
-final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>(
-  debugLabel: 'root',
-);
 final GlobalKey<NavigatorState> _homeNavigatorKey = GlobalKey<NavigatorState>(
   debugLabel: 'homeNav',
 );
@@ -19,18 +18,35 @@ final GlobalKey<NavigatorState> _historyNavigatorKey =
     GlobalKey<NavigatorState>(debugLabel: 'historyNav');
 
 GoRouter router() => GoRouter(
-  navigatorKey: rootNavigatorKey,
-  initialLocation: Routes.main,
+  initialLocation: Routes.home,
   debugLogDiagnostics: true,
   routes: [
     GoRoute(
-      path: Routes.main,
+      path: Routes.convertUrlRelative,
       builder: (context, state) {
-        final viewModel = MainViewModel(
+        final viewModel = ConvertUrlViewModel(
           urlConversionRepository: context.read(),
         );
-        return MainScreen(viewModel: viewModel);
+
+        return ConvertUrlScreen(viewModel: viewModel);
       },
+      routes: [
+        GoRoute(
+          path: ":encodedUrl",
+          builder: (context, state) {
+            final viewModel = ConvertUrlViewModel(
+              urlConversionRepository: context.read(),
+            );
+
+            final String base64EncodedUrl =
+                state.pathParameters["encodedUrl"] ?? "";
+            final String url = utf8.decode(base64Url.decode(base64EncodedUrl));
+            viewModel.convertUrl.execute(url);
+
+            return ConvertUrlScreen(viewModel: viewModel);
+          },
+        ),
+      ],
     ),
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {

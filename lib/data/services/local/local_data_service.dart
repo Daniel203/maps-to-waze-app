@@ -6,6 +6,7 @@ class LocalDataService {
     var uri = Uri.parse(
       "https://www.waze.com/ul?ll=45.576562,10.756344&navigate=yes",
     );
+
     return Success(uri);
   }
 }
