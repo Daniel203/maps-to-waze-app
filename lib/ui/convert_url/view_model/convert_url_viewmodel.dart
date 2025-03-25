@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_command/flutter_command.dart';
 import 'package:logging/logging.dart';
@@ -17,7 +15,7 @@ class ConvertUrlViewModel extends ChangeNotifier {
   }) : _urlConversionRepository = urlConversionRepository {
     convertUrl = Command.createAsync<String, Result<Uri>>(
       _convertUrl,
-      initialValue: Success(Uri.parse("")),
+      initialValue: Success(Uri()),
     );
   }
 
@@ -26,7 +24,7 @@ class ConvertUrlViewModel extends ChangeNotifier {
       return Failure(Exception("Url not found"));
     }
 
-    var result = await _getConvertedUrl(url);
+    var result = await _urlConversionRepository.convertUrl(url);
 
     return result.fold(
       (uri) {
@@ -38,13 +36,5 @@ class ConvertUrlViewModel extends ChangeNotifier {
         return Failure(error);
       },
     );
-  }
-
-  Future<Result<Uri>> _getConvertedUrl(String url) async {
-    if (url.isEmpty) {
-      return Failure(Exception("Url not found"));
-    }
-
-    return await _urlConversionRepository.convertUrl(url);
   }
 }

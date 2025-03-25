@@ -21,7 +21,7 @@ class MainApp extends StatelessWidget {
     // Receive links when the app is closed
     ReceiveSharingIntent.instance.getInitialMedia().then((sharedUrls) {
       if (sharedUrls.isNotEmpty) {
-        var sharedUrl = sharedUrls.first;
+        var sharedUrl = sharedUrls.first.path;
         var base64EncodedUrl = base64Url.encode(
           utf8.encode(sharedUrl.toString()),
         );
@@ -32,7 +32,7 @@ class MainApp extends StatelessWidget {
     // Receive links when the app is already open
     ReceiveSharingIntent.instance.getMediaStream().listen((sharedUrls) {
       if (sharedUrls.isNotEmpty) {
-        var sharedUrl = sharedUrls.first;
+        var sharedUrl = sharedUrls.first.path;
         var base64EncodedUrl = base64Url.encode(
           utf8.encode(sharedUrl.toString()),
         );
