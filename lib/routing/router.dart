@@ -3,12 +3,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:maps_to_waze/routing/routes.dart';
-import 'package:maps_to_waze/ui/convert_url/view/convert_url_screen.dart';
 import 'package:maps_to_waze/ui/convert_url/view_model/convert_url_viewmodel.dart';
+import 'package:maps_to_waze/ui/convert_url/widgets/convert_url_screen.dart';
 import 'package:maps_to_waze/ui/core/ui/custom_nav_bar.dart';
-import 'package:maps_to_waze/ui/history/view/history_screen.dart';
-import 'package:maps_to_waze/ui/home/view/home_screen.dart';
+import 'package:maps_to_waze/ui/history/widgets/history_screen.dart';
 import 'package:maps_to_waze/ui/home/view_model/home_viewmodel.dart';
+import 'package:maps_to_waze/ui/home/widgets/home_screen.dart';
 import 'package:provider/provider.dart';
 
 final GlobalKey<NavigatorState> _homeNavigatorKey = GlobalKey<NavigatorState>(
@@ -41,7 +41,7 @@ GoRouter router() => GoRouter(
             final String base64EncodedUrl =
                 state.pathParameters["encodedUrl"] ?? "";
             final String url = utf8.decode(base64Url.decode(base64EncodedUrl));
-            viewModel.convertUrl.execute(url);
+            viewModel.convertUrlCommand.execute(url);
 
             return ConvertUrlScreen(viewModel: viewModel);
           },

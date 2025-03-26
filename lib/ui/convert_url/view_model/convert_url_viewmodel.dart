@@ -8,14 +8,14 @@ class ConvertUrlViewModel extends ChangeNotifier {
   final UrlConversionRepository _urlConversionRepository;
   final _log = Logger('ConvertUrlViewModel');
 
-  late Command convertUrl;
+  late Command convertUrlCommand;
 
   ConvertUrlViewModel({
     required UrlConversionRepository urlConversionRepository,
   }) : _urlConversionRepository = urlConversionRepository {
-    convertUrl = Command.createAsync<String, Result<Uri>>(
+    convertUrlCommand = Command.createAsync<String, Result<Uri>?>(
       _convertUrl,
-      initialValue: Success(Uri()),
+      initialValue: null,
     );
   }
 
