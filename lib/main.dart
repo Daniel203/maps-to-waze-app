@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:maps_to_waze/routing/router.dart';
 import 'package:maps_to_waze/routing/routes.dart';
@@ -37,12 +38,21 @@ class MainApp extends StatelessWidget {
     });
 
     MaterialTheme theme = MaterialTheme(TextTheme());
-    
-    return MaterialApp.router(
-      darkTheme: theme.dark(),
-      theme: theme.light(),
-      themeMode: ThemeMode.system,
-      routerConfig: goRouter
-    );
+
+    return DynamicColorBuilder(builder: (lightColorScheme, darkColorScheme) {
+      return MaterialApp.router(
+        theme: ThemeData(
+          colorScheme: lightColorScheme ?? theme.light().colorScheme,
+          useMaterial3: true,
+        ),
+        darkTheme: ThemeData(
+          colorScheme: darkColorScheme ?? theme.dark().colorScheme,
+          useMaterial3: true,
+        ),
+        themeMode: ThemeMode.system,
+        routerConfig: goRouter
+      );
+    });
+
   }
 }

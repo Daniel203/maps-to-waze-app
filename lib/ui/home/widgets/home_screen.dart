@@ -6,7 +6,6 @@ import 'package:maps_to_waze/ui/core/ui/custom_app_bar.dart';
 import 'package:maps_to_waze/ui/home/view_model/home_viewmodel.dart';
 import 'package:maps_to_waze/ui/home/widgets/url_input.dart';
 import 'package:maps_to_waze/ui/home/widgets/url_submit.dart';
-import 'package:result_dart/result_dart.dart';
 
 class HomeScreen extends StatelessWidget {
   final HomeViewModel viewModel;
@@ -20,7 +19,7 @@ class HomeScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             UrlInput(viewModel: viewModel),
             UrlSubmit(viewModel: viewModel),

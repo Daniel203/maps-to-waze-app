@@ -60,9 +60,7 @@ GoRouter router() => GoRouter(
             GoRoute(
               path: Routes.home,
               builder: (BuildContext context, GoRouterState state) {
-                final viewModel = HomeViewModel(
-                  urlConversionRepository: context.read(),
-                );
+                final viewModel = HomeViewModel();
                 return HomeScreen(viewModel: viewModel);
               },
             ),
