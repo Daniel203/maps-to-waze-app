@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:maps_to_waze/data/services/api/models/url_conversion_api_model.dart';
+import 'package:maps_to_waze/data/services/api/models/convert_url_request/convert_url_request.dart';
+import 'package:maps_to_waze/data/services/api/models/convert_url_response/convert_url_response.dart';
 import 'package:result_dart/result_dart.dart';
 
 class ApiClient {
@@ -13,18 +14,19 @@ class ApiClient {
       _port = port ?? 8080,
       _clientFactory = clientFactory ?? HttpClient.new;
 
-  Future<Result<Uri>> convertUrl(String url) async {
+  Future<Result<ConvertUrlResponse>> convertUrl(String url) async {
     final client = _clientFactory();
     try {
       var requestUri = Uri.parse("$_host:$_port/convertUrl");
       var request = await client.postUrl(requestUri);
-      var requestBody = UrlConversionApiModel(url: url);
+      var requestBody = ConvertUrlRequest(url: url);
       request.write(json.encode(requestBody.toJson()));
       var response = await request.close();
 
       if (response.statusCode == 200) {
-        Uri uri = Uri.parse(await response.transform(utf8.decoder).join());
-        return Success(uri);
+        var responseBodyString = await response.transform(utf8.decoder).join();
+        var responseBodyJson = json.decode(responseBodyString);
+        return Success(ConvertUrlResponse.fromJson(responseBodyJson));
       }
 
       return Failure(HttpException("Invalid response"));

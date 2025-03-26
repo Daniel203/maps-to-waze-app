@@ -1,5 +1,6 @@
 import 'package:maps_to_waze/data/repositories/url_conversion/url_conversion_respository.dart';
 import 'package:maps_to_waze/data/services/api/api_client.dart';
+import 'package:maps_to_waze/data/services/api/models/convert_url_response/convert_url_response.dart';
 import 'package:result_dart/result_dart.dart';
 
 class UrlConversionRepositoryRemote implements UrlConversionRepository {
@@ -9,7 +10,7 @@ class UrlConversionRepositoryRemote implements UrlConversionRepository {
     : _apiClient = apiClient;
 
   @override
-  Future<Result<Uri>> convertUrl(String url) async {
+  Future<Result<ConvertUrlResponse>> convertUrl(String url) async {
     try {
       return _apiClient.convertUrl(url);
     } on Exception catch (error) {
