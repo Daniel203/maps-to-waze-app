@@ -1,102 +1,58 @@
 import 'dart:convert';
 
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
-import 'dart:async';
-
+import 'package:maps_to_waze/routing/router.dart';
+import 'package:maps_to_waze/routing/routes.dart';
+import 'package:maps_to_waze/ui/core/themes/theme.dart';
 import 'package:receive_sharing_intent/receive_sharing_intent.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:http/http.dart' as http;
+import 'main_dev.dart' as development;
 
-void main() => runApp(MyApp());
-
-class MyApp extends StatefulWidget {
-  @override
-  _MyAppState createState() => _MyAppState();
+void main() {
+  // Run development environment by default
+  development.main();
 }
 
-class _MyAppState extends State<MyApp> {
-  late StreamSubscription _intentSub;
-  final _sharedFiles = <SharedMediaFile>[];
-
-  @override
-  void initState() {
-    super.initState();
-
-    // Listen to media sharing coming from outside the app while the app is in the memory.
-    _intentSub = ReceiveSharingIntent.instance.getMediaStream().listen((value) {
-      setState(() {
-        _sharedFiles.clear();
-        _sharedFiles.addAll(value);
-        processLink();
-      });
-    }, onError: (err) {});
-
-    // Get the media sharing coming from outside the app while the app is closed.
-    ReceiveSharingIntent.instance.getInitialMedia().then((value) {
-      setState(() {
-        _sharedFiles.clear();
-        _sharedFiles.addAll(value);
-
-        // Tell the library that we are done processing the intent.
-        ReceiveSharingIntent.instance.reset();
-
-        processLink();
-      });
-    });
-  }
-
-  Future<void> processLink() async {
-    if (_sharedFiles.isEmpty) {
-      return;
-    }
-
-    var link = _sharedFiles.first.path;
-
-    var apiUrl = Uri.parse("http://10.0.2.2:8080/convertLink");
-
-    var response = await http.post(
-      apiUrl,
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({'url': link}),
-    );
-
-    if (response.statusCode != 200) {
-      throw Exception("Failed to convert the link int waze link");
-    }
-
-    var url = Uri.parse(response.body);
-    print("url: ${url}");
-
-    if (!await launchUrl(url)) {
-      throw Exception('Could not launch $url');
-    }
-  }
-
-  @override
-  void dispose() {
-    _intentSub.cancel();
-    super.dispose();
-  }
+class MainApp extends StatelessWidget {
+  const MainApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    const textStyleBold = const TextStyle(fontWeight: FontWeight.bold);
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(title: const Text('Plugin example app')),
-        body: Center(
-          child: Column(
-            children: <Widget>[
-              Text("Shared files:", style: textStyleBold),
-              Text(
-                _sharedFiles
-                    .map((f) => f.toMap())
-                    .join(",\n****************\n"),
-              ),
-            ],
-          ),
+    final goRouter = router();
+
+    // Receive links when the app is closed
+    ReceiveSharingIntent.instance.getInitialMedia().then((sharedUrls) {
+      if (sharedUrls.isNotEmpty) {
+        var url = sharedUrls.first.path;
+        goRouter.go(Routes.convertUrl(url));
+      }
+    });
+
+    // Receive links when the app is already open
+    ReceiveSharingIntent.instance.getMediaStream().listen((sharedUrls) {
+      if (sharedUrls.isNotEmpty) {
+        var url = sharedUrls.first.path;
+        goRouter.go(Routes.convertUrl(url));
+        ReceiveSharingIntent.instance.reset();
+      }
+    });
+
+    MaterialTheme theme = MaterialTheme(TextTheme());
+
+    return DynamicColorBuilder(builder: (lightColorScheme, darkColorScheme) {
+      return MaterialApp.router(
+        theme: ThemeData(
+          colorScheme: lightColorScheme ?? theme.light().colorScheme,
+          useMaterial3: true,
         ),
-      ),
-    );
+        darkTheme: ThemeData(
+          colorScheme: darkColorScheme ?? theme.dark().colorScheme,
+          useMaterial3: true,
+        ),
+        themeMode: ThemeMode.system,
+        routerConfig: goRouter
+      );
+    });
+
   }
 }
