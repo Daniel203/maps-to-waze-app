@@ -28,6 +28,9 @@ class HistoryViewModel extends ChangeNotifier {
     return result.fold(
       (data) {
         _log.info("Conversion history retrieved successfully");
+
+        // reverse the list to show the latest conversion first
+        data = data.reversed.toList();
         return Success(data);
       },
       (error) {

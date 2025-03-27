@@ -10,8 +10,8 @@ class DevelopmentDataService {
       "https://www.waze.com/ul?ll=45.576562%2C10.756344&navigate=yes",
     );
     var coordinates = Coordinates(
-      latitude: "10.810213",
-      longitude: "45.491291",
+      longitude: "10.810213",
+      latitude: "45.491291",
     );
 
     var response = UrlData(url: url, coordinates: coordinates);

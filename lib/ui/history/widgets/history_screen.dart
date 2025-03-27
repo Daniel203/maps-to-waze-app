@@ -3,6 +3,7 @@ import 'package:flutter_command/flutter_command.dart';
 import 'package:maps_to_waze/data/services/local_storage/models/conversion/conversion.dart';
 import 'package:maps_to_waze/ui/core/ui/custom_app_bar.dart';
 import 'package:maps_to_waze/ui/history/view_model/history_viewmodel.dart';
+import 'package:maps_to_waze/ui/history/widgets/conversion_card.dart';
 
 class HistoryScreen extends StatelessWidget {
   final HistoryViewModel viewModel;
@@ -22,7 +23,12 @@ class HistoryScreen extends StatelessWidget {
           onData: (context, data, _) {
             return data.fold(
               (List<Conversion> conversions) {
-                return SizedBox.shrink();
+                return ListView.builder(
+                  itemCount: conversions.length,
+                  itemBuilder: (context, index) {
+                    return ConversionCard(conversion: conversions[index]);
+                  },
+                );
               },
               (error) {
                 return Center(
