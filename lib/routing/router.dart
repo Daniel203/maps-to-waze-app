@@ -6,6 +6,7 @@ import 'package:maps_to_waze/routing/routes.dart';
 import 'package:maps_to_waze/ui/convert_url/view_model/convert_url_viewmodel.dart';
 import 'package:maps_to_waze/ui/convert_url/widgets/convert_url_screen.dart';
 import 'package:maps_to_waze/ui/core/ui/custom_nav_bar.dart';
+import 'package:maps_to_waze/ui/history/view_model/history_viewmodel.dart';
 import 'package:maps_to_waze/ui/history/widgets/history_screen.dart';
 import 'package:maps_to_waze/ui/home/view_model/home_viewmodel.dart';
 import 'package:maps_to_waze/ui/home/widgets/home_screen.dart';
@@ -73,7 +74,10 @@ GoRouter router() => GoRouter(
             GoRoute(
               path: Routes.history,
               builder: (BuildContext context, GoRouterState state) {
-                return HistoryScreen();
+                final viewModel = HistoryViewModel(
+                  urlConversionRepository: context.read(),
+                );
+                return HistoryScreen(viewModel: viewModel);
               },
             ),
           ],

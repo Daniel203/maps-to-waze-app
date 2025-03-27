@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:maps_to_waze/routing/router.dart';
@@ -8,9 +6,9 @@ import 'package:maps_to_waze/ui/core/themes/theme.dart';
 import 'package:receive_sharing_intent/receive_sharing_intent.dart';
 import 'main_dev.dart' as development;
 
-void main() {
+main() async {
   // Run development environment by default
-  development.main();
+  await development.main();
 }
 
 class MainApp extends StatelessWidget {
@@ -39,20 +37,21 @@ class MainApp extends StatelessWidget {
 
     MaterialTheme theme = MaterialTheme(TextTheme());
 
-    return DynamicColorBuilder(builder: (lightColorScheme, darkColorScheme) {
-      return MaterialApp.router(
-        theme: ThemeData(
-          colorScheme: lightColorScheme ?? theme.light().colorScheme,
-          useMaterial3: true,
-        ),
-        darkTheme: ThemeData(
-          colorScheme: darkColorScheme ?? theme.dark().colorScheme,
-          useMaterial3: true,
-        ),
-        themeMode: ThemeMode.system,
-        routerConfig: goRouter
-      );
-    });
-
+    return DynamicColorBuilder(
+      builder: (lightColorScheme, darkColorScheme) {
+        return MaterialApp.router(
+          theme: ThemeData(
+            colorScheme: lightColorScheme ?? theme.light().colorScheme,
+            useMaterial3: true,
+          ),
+          darkTheme: ThemeData(
+            colorScheme: darkColorScheme ?? theme.dark().colorScheme,
+            useMaterial3: true,
+          ),
+          themeMode: ThemeMode.system,
+          routerConfig: goRouter,
+        );
+      },
+    );
   }
 }

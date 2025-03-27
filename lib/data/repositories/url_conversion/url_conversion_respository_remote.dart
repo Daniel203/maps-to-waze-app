@@ -1,20 +1,37 @@
 import 'package:maps_to_waze/data/repositories/url_conversion/url_conversion_respository.dart';
 import 'package:maps_to_waze/data/services/api/api_client.dart';
-import 'package:maps_to_waze/data/services/api/models/convert_url_response/convert_url_response.dart';
+import 'package:maps_to_waze/data/services/local_storage/local_storage_service.dart';
+import 'package:maps_to_waze/data/services/local_storage/models/conversion/conversion.dart';
+import 'package:maps_to_waze/domain/models/url_data/url_data.dart';
 import 'package:result_dart/result_dart.dart';
 
 class UrlConversionRepositoryRemote implements UrlConversionRepository {
   final ApiClient _apiClient;
+  final LocalStorageService _localStorageService;
 
-  UrlConversionRepositoryRemote({required ApiClient apiClient})
-    : _apiClient = apiClient;
+  UrlConversionRepositoryRemote({
+    required ApiClient apiClient,
+    required LocalStorageService localStorageService,
+  }) : _apiClient = apiClient,
+       _localStorageService = localStorageService;
 
   @override
-  Future<Result<ConvertUrlResponse>> convertUrl(String url) async {
+  Future<Result<UrlData>> convertUrl(String url) async {
     try {
-      return _apiClient.convertUrl(url);
+      var response = await _apiClient.convertUrl(url);
+      var urlData = response.getOrThrow();
+
+      // Store the conversion in the local storage
+      await _localStorageService.saveConversion(urlData);
+
+      return Success(urlData);
     } on Exception catch (error) {
       return Failure(error);
     }
+  }
+
+  @override
+  Future<Result<List<Conversion>>> getConversionHistory() async {
+    return await _localStorageService.getConversionHistory();
   }
 }
