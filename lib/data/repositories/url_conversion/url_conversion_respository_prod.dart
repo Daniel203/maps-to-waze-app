@@ -1,24 +1,24 @@
 import 'package:maps_to_waze/data/repositories/url_conversion/url_conversion_respository.dart';
+import 'package:maps_to_waze/data/services/api/api_client.dart';
 import 'package:maps_to_waze/data/services/local_storage/local_storage_service.dart';
 import 'package:maps_to_waze/data/services/local_storage/models/conversion/conversion.dart';
 import 'package:maps_to_waze/domain/models/url_data/url_data.dart';
-import 'package:maps_to_waze/data/services/development/development_data_service.dart';
 import 'package:result_dart/result_dart.dart';
 
-class UrlConversionRepositoryLocal implements UrlConversionRepository {
-  final DevelopmentDataService _developmentDataService;
+class UrlConversionRepositoryProd implements UrlConversionRepository {
+  final ApiClient _apiClient;
   final LocalStorageService _localStorageService;
 
-  UrlConversionRepositoryLocal({
-    required DevelopmentDataService developmentDataService,
+  UrlConversionRepositoryProd({
+    required ApiClient apiClient,
     required LocalStorageService localStorageService,
-  }) : _developmentDataService = developmentDataService,
+  }) : _apiClient = apiClient,
        _localStorageService = localStorageService;
 
   @override
   Future<Result<UrlData>> convertUrl(String url) async {
     try {
-      var response = await _developmentDataService.convertUrl(url);
+      var response = await _apiClient.convertUrl(url);
       var urlData = response.getOrThrow();
 
       // Store the conversion in the local storage

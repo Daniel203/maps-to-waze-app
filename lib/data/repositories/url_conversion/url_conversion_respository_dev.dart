@@ -5,11 +5,11 @@ import 'package:maps_to_waze/data/services/local_storage/models/conversion/conve
 import 'package:maps_to_waze/domain/models/url_data/url_data.dart';
 import 'package:result_dart/result_dart.dart';
 
-class UrlConversionRepositoryRemote implements UrlConversionRepository {
+class UrlConversionRepositoryDev implements UrlConversionRepository {
   final ApiClient _apiClient;
   final LocalStorageService _localStorageService;
 
-  UrlConversionRepositoryRemote({
+  UrlConversionRepositoryDev({
     required ApiClient apiClient,
     required LocalStorageService localStorageService,
   }) : _apiClient = apiClient,
