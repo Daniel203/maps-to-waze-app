@@ -1,11 +1,11 @@
 import 'package:hive_ce/hive.dart';
 
-class Conversion extends HiveObject {
+class ConversionEntity extends HiveObject {
   String url;
   String longitude;
   String latitude;
 
-  Conversion({
+  ConversionEntity({
     required this.url,
     required this.longitude,
     required this.latitude,

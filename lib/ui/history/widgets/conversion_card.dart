@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
-import 'package:maps_to_waze/data/services/local_storage/models/conversion/conversion.dart';
+import 'package:maps_to_waze/domain/models/conversion/conversion.dart';
 import 'package:maps_to_waze/ui/core/themes/dimens.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -28,8 +28,8 @@ class ConversionCard extends StatelessWidget {
               child: OSMViewer(
                 controller: SimpleMapController(
                   initPosition: GeoPoint(
-                    latitude: double.parse(conversion.latitude),
-                    longitude: double.parse(conversion.longitude),
+                    latitude: conversion.coordinates.latitude,
+                    longitude: conversion.coordinates.longitude,
                   ),
                   markerHome: MarkerIcon(icon: Icon(Icons.location_on)),
                 ),
@@ -45,12 +45,12 @@ class ConversionCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        '${conversion.latitude}, ${conversion.longitude}',
+                        '${conversion.coordinates.latitude}, ${conversion.coordinates.longitude}',
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                       FilledButton(
                         onPressed: () async {
-                          Uri wazeUri = Uri.parse(conversion.url);
+                          Uri wazeUri = conversion.url;
                           await launchUrl(wazeUri); 
                         },
                         child: const Text('Launch'),

@@ -1,10 +1,9 @@
 import 'dart:math';
-
 import 'package:flutter/widgets.dart';
 import 'package:flutter_command/flutter_command.dart';
 import 'package:logging/logging.dart';
 import 'package:maps_to_waze/data/repositories/url_conversion/url_conversion_respository.dart';
-import 'package:maps_to_waze/data/services/local_storage/models/conversion/conversion.dart';
+import 'package:maps_to_waze/domain/models/conversion/conversion.dart';
 import 'package:result_dart/result_dart.dart';
 
 /// Max number of items to show in the history (or the number of elements to add when "show more" pressed)
@@ -62,7 +61,10 @@ class HistoryViewModel extends ChangeNotifier {
 
   void _showMore() {
     if (_hiddenItems) {
-      _visibleItemsCount = min(_visibleItemsCount + maxVisibleItems, _conversions.length);
+      _visibleItemsCount = min(
+        _visibleItemsCount + maxVisibleItems,
+        _conversions.length,
+      );
       if (_visibleItemsCount == _conversions.length) {
         _hiddenItems = false;
       }

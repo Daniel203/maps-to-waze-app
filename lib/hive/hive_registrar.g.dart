@@ -7,6 +7,6 @@ import 'package:maps_to_waze/hive/hive_adapters.dart';
 
 extension HiveRegistrar on HiveInterface {
   void registerAdapters() {
-    registerAdapter(ConversionAdapter());
+    registerAdapter(ConversionEntityAdapter());
   }
 }

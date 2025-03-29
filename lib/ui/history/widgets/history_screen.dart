@@ -59,7 +59,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                             return ConversionCard(
                               conversion: widget.viewModel.conversions[index],
                             );
-                          } else {
+                          } else if (widget.viewModel.hiddenItems){
                             return TextButton(
                               onPressed: () {
                                 widget.viewModel.showMoreCommand.execute();
@@ -67,6 +67,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                               child: Text("Show more"),
                             );
                           }
+                          return SizedBox.shrink();
                         },
                       ),
                     ),

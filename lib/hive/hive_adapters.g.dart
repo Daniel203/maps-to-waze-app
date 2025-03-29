@@ -6,17 +6,17 @@ part of 'hive_adapters.dart';
 // AdaptersGenerator
 // **************************************************************************
 
-class ConversionAdapter extends TypeAdapter<Conversion> {
+class ConversionEntityAdapter extends TypeAdapter<ConversionEntity> {
   @override
-  final int typeId = 1;
+  final int typeId = 0;
 
   @override
-  Conversion read(BinaryReader reader) {
+  ConversionEntity read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Conversion(
+    return ConversionEntity(
       url: fields[0] as String,
       longitude: fields[1] as String,
       latitude: fields[2] as String,
@@ -24,7 +24,7 @@ class ConversionAdapter extends TypeAdapter<Conversion> {
   }
 
   @override
-  void write(BinaryWriter writer, Conversion obj) {
+  void write(BinaryWriter writer, ConversionEntity obj) {
     writer
       ..writeByte(3)
       ..writeByte(0)
@@ -41,7 +41,7 @@ class ConversionAdapter extends TypeAdapter<Conversion> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ConversionAdapter &&
+      other is ConversionEntityAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

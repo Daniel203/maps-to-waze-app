@@ -2,8 +2,8 @@ import 'package:hive_ce/hive.dart';
 import 'package:hive_ce_flutter/hive_flutter.dart';
 import 'package:maps_to_waze/data/services/local_storage/hive_boxes.dart';
 import 'package:maps_to_waze/data/services/local_storage/local_storage_service.dart';
-import 'package:maps_to_waze/data/services/local_storage/models/conversion/conversion.dart';
-import 'package:maps_to_waze/domain/models/url_data/url_data.dart';
+import 'package:maps_to_waze/data/services/local_storage/models/conversion/conversion_entity.dart';
+import 'package:maps_to_waze/domain/models/conversion/conversion.dart';
 import 'package:result_dart/result_dart.dart';
 
 class LocalStorageServiceDev implements LocalStorageService {
@@ -15,14 +15,14 @@ class LocalStorageServiceDev implements LocalStorageService {
   }
 
   @override
-  Future<Result> saveConversion(UrlData data) async {
+  Future<Result> saveConversion(Conversion data) async {
     try {
-      final box = await _openBox<Conversion>(historyBoxName);
+      final box = await _openBox<ConversionEntity>(historyBoxName);
 
-      final localUrlData = Conversion(
+      final localUrlData = ConversionEntity(
         url: data.url.toString(),
-        latitude: data.coordinates.latitude,
-        longitude: data.coordinates.longitude,
+        latitude: data.coordinates.latitude.toString(),
+        longitude: data.coordinates.longitude.toString(),
       );
       await box.add(localUrlData);
 
@@ -33,21 +33,10 @@ class LocalStorageServiceDev implements LocalStorageService {
   }
 
   @override
-  Future<Result<List<Conversion>>> getConversionHistory() async {
+  Future<Result<List<ConversionEntity>>> getConversionHistory() async {
     try {
-      final box = await _openBox<Conversion>(historyBoxName);
-      final List<Conversion> conversions = box.values.toList();
-
-      // Add dummy data to test list view in the UI
-      for (var i = 1; i <= 100; i++) {
-        conversions.add(
-          Conversion(
-            url: "https://www.google.com/maps?q=loc:$i,$i",
-            latitude: i.toString(),
-            longitude: i.toString(),
-          ),
-        );
-      }
+      final box = await _openBox<ConversionEntity>(historyBoxName);
+      final List<ConversionEntity> conversions = box.values.toList();
 
       return Success(conversions);
     } on Exception catch (error) {
