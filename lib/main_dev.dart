@@ -15,6 +15,7 @@ Future<void> main() async {
 
   Logger.root.level = ConfigDev.loggerLevel;
   Logger.root.onRecord.listen((record) {
+    // ignore: avoid_print
     print('${record.level.name}: ${record.time}: ${record.message}');
   });
 

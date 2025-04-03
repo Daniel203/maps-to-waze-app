@@ -2,6 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:maps_to_waze/data/services/api/models/convert_url_response/convert_url_response.dart';
 import 'package:maps_to_waze/data/services/local_storage/models/conversion/conversion_entity.dart';
 import 'package:maps_to_waze/domain/models/coordinates/coordinates.dart';
+import 'dart:typed_data';
 
 part 'conversion.freezed.dart';
 part 'conversion.g.dart';
@@ -11,6 +12,7 @@ abstract class Conversion with _$Conversion {
   const factory Conversion({
     required Uri url,
     required Coordinates coordinates,
+    String? mapImagePath,
   }) = _Conversion;
 
   factory Conversion.fromJson(Map<String, dynamic> json) =>
@@ -26,7 +28,11 @@ abstract class Conversion with _$Conversion {
     }
 
     final coordinates = Coordinates(latitude: latitude, longitude: longitude);
-    return Conversion(url: url, coordinates: coordinates);
+    return Conversion(
+      url: url,
+      coordinates: coordinates,
+      mapImagePath: conversionEntity.mapImagePath,
+    );
   }
 
   factory Conversion.fromResponse(ConvertUrlResponse response) {
@@ -40,5 +46,25 @@ abstract class Conversion with _$Conversion {
 
     final coordinates = Coordinates(latitude: latitude, longitude: longitude);
     return Conversion(url: url, coordinates: coordinates);
+  }
+}
+
+class Uint8ListConverter implements JsonConverter<Uint8List?, List<int>?> {
+  const Uint8ListConverter();
+
+  @override
+  Uint8List? fromJson(List<int>? json) {
+    if (json == null) {
+      return null;
+    }
+    return Uint8List.fromList(json);
+  }
+
+  @override
+  List<int>? toJson(Uint8List? object) {
+    if (object == null) {
+      return null;
+    }
+    return object.toList();
   }
 }

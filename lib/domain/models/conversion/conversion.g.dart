@@ -11,10 +11,12 @@ _Conversion _$ConversionFromJson(Map<String, dynamic> json) => _Conversion(
   coordinates: Coordinates.fromJson(
     json['coordinates'] as Map<String, dynamic>,
   ),
+  mapImagePath: json['mapImagePath'] as String?,
 );
 
 Map<String, dynamic> _$ConversionToJson(_Conversion instance) =>
     <String, dynamic>{
       'url': instance.url.toString(),
       'coordinates': instance.coordinates,
+      'mapImagePath': instance.mapImagePath,
     };

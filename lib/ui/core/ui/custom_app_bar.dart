@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  double? scrolledUnderElevation;
-  bool shadowColor = false;
+  final double? scrolledUnderElevation = null;
+  final bool shadowColor = false;
 
-  CustomAppBar({super.key});
+  const CustomAppBar({super.key});
 
   @override
   Widget build(BuildContext context) {

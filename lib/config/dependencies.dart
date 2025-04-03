@@ -2,6 +2,7 @@ import 'package:maps_to_waze/config/config.dart';
 import 'package:maps_to_waze/data/repositories/url_conversion/url_conversion_respository.dart';
 import 'package:maps_to_waze/data/repositories/url_conversion/url_conversion_respository_dev.dart';
 import 'package:maps_to_waze/data/repositories/url_conversion/url_conversion_respository_prod.dart';
+import 'package:maps_to_waze/data/services/api/api_client_dev_local.dart';
 import 'package:maps_to_waze/data/services/api/api_client_dev_remote.dart';
 import 'package:maps_to_waze/data/services/api/api_client_prod.dart';
 import 'package:maps_to_waze/data/services/local_storage/local_storage_service_dev.dart';
@@ -17,6 +18,7 @@ List<SingleChildWidget> get providersDev {
         port: ConfigDev.backendPort,
       ),
     ),
+    Provider.value(value: ApiClientDevLocal()),
     Provider.value(value: LocalStorageServiceDev()),
     Provider(
       create:

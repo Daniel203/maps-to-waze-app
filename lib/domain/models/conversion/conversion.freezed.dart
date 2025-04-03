@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Conversion {
 
- Uri get url; Coordinates get coordinates;
+ Uri get url; Coordinates get coordinates; String? get mapImagePath;
 /// Create a copy of Conversion
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -29,16 +29,16 @@ $ConversionCopyWith<Conversion> get copyWith => _$ConversionCopyWithImpl<Convers
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Conversion&&(identical(other.url, url) || other.url == url)&&(identical(other.coordinates, coordinates) || other.coordinates == coordinates));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Conversion&&(identical(other.url, url) || other.url == url)&&(identical(other.coordinates, coordinates) || other.coordinates == coordinates)&&(identical(other.mapImagePath, mapImagePath) || other.mapImagePath == mapImagePath));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,url,coordinates);
+int get hashCode => Object.hash(runtimeType,url,coordinates,mapImagePath);
 
 @override
 String toString() {
-  return 'Conversion(url: $url, coordinates: $coordinates)';
+  return 'Conversion(url: $url, coordinates: $coordinates, mapImagePath: $mapImagePath)';
 }
 
 
@@ -49,7 +49,7 @@ abstract mixin class $ConversionCopyWith<$Res>  {
   factory $ConversionCopyWith(Conversion value, $Res Function(Conversion) _then) = _$ConversionCopyWithImpl;
 @useResult
 $Res call({
- Uri url, Coordinates coordinates
+ Uri url, Coordinates coordinates, String? mapImagePath
 });
 
 
@@ -66,11 +66,12 @@ class _$ConversionCopyWithImpl<$Res>
 
 /// Create a copy of Conversion
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? url = null,Object? coordinates = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? url = null,Object? coordinates = null,Object? mapImagePath = freezed,}) {
   return _then(_self.copyWith(
 url: null == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
 as Uri,coordinates: null == coordinates ? _self.coordinates : coordinates // ignore: cast_nullable_to_non_nullable
-as Coordinates,
+as Coordinates,mapImagePath: freezed == mapImagePath ? _self.mapImagePath : mapImagePath // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 /// Create a copy of Conversion
@@ -90,11 +91,12 @@ $CoordinatesCopyWith<$Res> get coordinates {
 @JsonSerializable()
 
 class _Conversion implements Conversion {
-  const _Conversion({required this.url, required this.coordinates});
+  const _Conversion({required this.url, required this.coordinates, this.mapImagePath});
   factory _Conversion.fromJson(Map<String, dynamic> json) => _$ConversionFromJson(json);
 
 @override final  Uri url;
 @override final  Coordinates coordinates;
+@override final  String? mapImagePath;
 
 /// Create a copy of Conversion
 /// with the given fields replaced by the non-null parameter values.
@@ -109,16 +111,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Conversion&&(identical(other.url, url) || other.url == url)&&(identical(other.coordinates, coordinates) || other.coordinates == coordinates));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Conversion&&(identical(other.url, url) || other.url == url)&&(identical(other.coordinates, coordinates) || other.coordinates == coordinates)&&(identical(other.mapImagePath, mapImagePath) || other.mapImagePath == mapImagePath));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,url,coordinates);
+int get hashCode => Object.hash(runtimeType,url,coordinates,mapImagePath);
 
 @override
 String toString() {
-  return 'Conversion(url: $url, coordinates: $coordinates)';
+  return 'Conversion(url: $url, coordinates: $coordinates, mapImagePath: $mapImagePath)';
 }
 
 
@@ -129,7 +131,7 @@ abstract mixin class _$ConversionCopyWith<$Res> implements $ConversionCopyWith<$
   factory _$ConversionCopyWith(_Conversion value, $Res Function(_Conversion) _then) = __$ConversionCopyWithImpl;
 @override @useResult
 $Res call({
- Uri url, Coordinates coordinates
+ Uri url, Coordinates coordinates, String? mapImagePath
 });
 
 
@@ -146,11 +148,12 @@ class __$ConversionCopyWithImpl<$Res>
 
 /// Create a copy of Conversion
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? url = null,Object? coordinates = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? url = null,Object? coordinates = null,Object? mapImagePath = freezed,}) {
   return _then(_Conversion(
 url: null == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
 as Uri,coordinates: null == coordinates ? _self.coordinates : coordinates // ignore: cast_nullable_to_non_nullable
-as Coordinates,
+as Coordinates,mapImagePath: freezed == mapImagePath ? _self.mapImagePath : mapImagePath // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 

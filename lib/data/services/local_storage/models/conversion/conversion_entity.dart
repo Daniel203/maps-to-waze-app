@@ -4,10 +4,12 @@ class ConversionEntity extends HiveObject {
   String url;
   String longitude;
   String latitude;
+  String? mapImagePath;
 
   ConversionEntity({
     required this.url,
     required this.longitude,
     required this.latitude,
+    required this.mapImagePath,
   });
 }

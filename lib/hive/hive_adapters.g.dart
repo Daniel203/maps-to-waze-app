@@ -20,19 +20,22 @@ class ConversionEntityAdapter extends TypeAdapter<ConversionEntity> {
       url: fields[0] as String,
       longitude: fields[1] as String,
       latitude: fields[2] as String,
+      mapImagePath: fields[4] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, ConversionEntity obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.url)
       ..writeByte(1)
       ..write(obj.longitude)
       ..writeByte(2)
-      ..write(obj.latitude);
+      ..write(obj.latitude)
+      ..writeByte(4)
+      ..write(obj.mapImagePath);
   }
 
   @override
