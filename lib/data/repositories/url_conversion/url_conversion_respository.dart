@@ -68,4 +68,12 @@ class UrlConversionRepository {
       return Failure(error);
     }
   }
+
+  Future<Result> deleteConversion(Conversion conversion) async {
+    try {
+      return await _localStorageService.deleteConversion(conversion);
+    } on Exception catch (error) {
+      return Failure(error);
+    }
+  }
 }

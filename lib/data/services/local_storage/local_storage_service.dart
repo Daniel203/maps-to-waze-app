@@ -72,6 +72,27 @@ class LocalStorageService {
     }
   }
 
+  Future<Result> deleteConversion(Conversion conversion) async {
+    try {
+      _log.info("Deleting conversion from local storage");
+      final box = await _openBox<ConversionEntity>(historyBoxName);
+      final List<ConversionEntity> conversions = box.values.toList();
+      final conversionToDelete = conversions.firstWhere(
+        (c) =>
+            c.url == conversion.url.toString() &&
+            c.latitude == conversion.coordinates.latitude.toString() &&
+            c.longitude == conversion.coordinates.longitude.toString(),
+      );
+
+      await conversionToDelete.delete();
+      _log.info("Conversion deleted successfully");
+      return Success("");
+    } on Exception catch (error) {
+      _log.warning("Failed to delete conversion: $error");
+      return Failure(error);
+    }
+  }
+
   Future<Result<String>> saveImageToDisk(Uint8List imageData) async {
     try {
       _log.info("Saving image to disk");

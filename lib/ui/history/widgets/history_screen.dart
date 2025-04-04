@@ -35,7 +35,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(),
+      appBar: CustomAppBar(actions: _getActions()),
       body: SafeArea(
         child: CommandBuilder(
           command: widget.viewModel.loadHistoryCommand,
@@ -57,9 +57,10 @@ class _HistoryScreenState extends State<HistoryScreen> {
                         itemBuilder: (context, index) {
                           if (index < widget.viewModel.visibleItemsCount) {
                             return ConversionCard(
-                              conversion: widget.viewModel.conversions[index],
+                              viewModel: widget.viewModel,
+                              index: index,
                             );
-                          } else if (widget.viewModel.hiddenItems){
+                          } else if (widget.viewModel.hiddenItems) {
                             return TextButton(
                               onPressed: () {
                                 widget.viewModel.showMoreCommand.execute();
@@ -84,5 +85,24 @@ class _HistoryScreenState extends State<HistoryScreen> {
         ),
       ),
     );
+  }
+
+  List<Widget> _getActions() {
+    if (widget.viewModel.isSelectingMode) {
+      List<Widget> actions = [];
+      actions.add(
+        IconButton(
+          icon: const Icon(Icons.delete),
+          tooltip: "Delete conversions",
+          onPressed: () {
+            widget.viewModel.deleteSelectedItemsCommand.execute();
+          },
+        ),
+      );
+
+      return actions;
+    }
+
+    return [];
   }
 }

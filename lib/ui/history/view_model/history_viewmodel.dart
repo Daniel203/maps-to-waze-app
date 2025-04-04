@@ -1,4 +1,6 @@
+import 'dart:collection';
 import 'dart:math';
+
 import 'package:flutter/widgets.dart';
 import 'package:flutter_command/flutter_command.dart';
 import 'package:logging/logging.dart';
@@ -15,13 +17,22 @@ class HistoryViewModel extends ChangeNotifier {
 
   late Command loadHistoryCommand;
   late Command showMoreCommand;
+  late Command toggleItemSelectedCommand;
+  late Command deleteSelectedItemsCommand;
 
   int _visibleItemsCount = 0;
   int get visibleItemsCount => _visibleItemsCount;
+
   bool _hiddenItems = false;
-  bool get hiddenItems => _hiddenItems;
+  bool get hiddenItems => _visibleItemsCount < _conversions.length;
+
   List<Conversion> _conversions = [];
   List<Conversion> get conversions => _conversions;
+
+  HashSet<int> _selectedItems = HashSet();
+
+  // When the user long press an item, it will be selected and enters the selecting mode
+  bool get isSelectingMode => _selectedItems.isNotEmpty;
 
   HistoryViewModel({required UrlConversionRepository urlConversionRepository})
     : _urlConversionRepository = urlConversionRepository {
@@ -30,6 +41,13 @@ class HistoryViewModel extends ChangeNotifier {
       initialValue: Success([]),
     );
     showMoreCommand = Command.createSyncNoParamNoResult(_showMore);
+    toggleItemSelectedCommand = Command.createSync<int, bool>(
+      _toogleItemSelected,
+      initialValue: false,
+    );
+    deleteSelectedItemsCommand = Command.createAsyncNoParamNoResult(
+      _deleteSelectedItems,
+    );
 
     loadHistoryCommand.execute();
   }
@@ -49,6 +67,7 @@ class HistoryViewModel extends ChangeNotifier {
           _hiddenItems = true;
         }
 
+        _selectedItems = HashSet();
         _conversions = data;
         return Success("");
       },
@@ -70,5 +89,38 @@ class HistoryViewModel extends ChangeNotifier {
       }
       notifyListeners();
     }
+  }
+
+  bool _toogleItemSelected(int index) {
+    if (_selectedItems.contains(index)) {
+      _selectedItems.remove(index);
+    } else {
+      _selectedItems.add(index);
+    }
+
+    notifyListeners();
+    return isSelected(index);
+  }
+
+  bool isSelected(int index) {
+    return _selectedItems.contains(index);
+  }
+
+  Future _deleteSelectedItems() async {
+    if (!isSelectingMode) {
+      return;
+    }
+
+    for (var index in _selectedItems) {
+      if (index < 0 || index >= _conversions.length) {
+        continue;
+      }
+      var conversion = _conversions[index];
+      await _urlConversionRepository.deleteConversion(conversion);
+    }
+
+    _selectedItems = HashSet<int>();
+    notifyListeners();
+    return;
   }
 }
