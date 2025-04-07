@@ -13,6 +13,9 @@ abstract class Conversion with _$Conversion {
     required Uri url,
     required Coordinates coordinates,
     String? mapImagePath,
+    String? addressLine1,
+    String? addressLine2,
+    String? formattedAddress,
   }) = _Conversion;
 
   factory Conversion.fromJson(Map<String, dynamic> json) =>
@@ -32,10 +35,13 @@ abstract class Conversion with _$Conversion {
       url: url,
       coordinates: coordinates,
       mapImagePath: conversionEntity.mapImagePath,
+      addressLine1: conversionEntity.addressLine1,
+      addressLine2: conversionEntity.addressLine2,
+      formattedAddress: conversionEntity.formattedAddress,
     );
   }
 
-  factory Conversion.fromResponse(ConvertUrlResponse response) {
+  factory Conversion.fromConvertUrlResponse(ConvertUrlResponse response) {
     var url = Uri.tryParse(response.url);
     var latitude = double.tryParse(response.coordinates.latitude);
     var longitude = double.tryParse(response.coordinates.longitude);

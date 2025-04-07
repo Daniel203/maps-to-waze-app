@@ -12,6 +12,9 @@ _Conversion _$ConversionFromJson(Map<String, dynamic> json) => _Conversion(
     json['coordinates'] as Map<String, dynamic>,
   ),
   mapImagePath: json['mapImagePath'] as String?,
+  addressLine1: json['addressLine1'] as String?,
+  addressLine2: json['addressLine2'] as String?,
+  formattedAddress: json['formattedAddress'] as String?,
 );
 
 Map<String, dynamic> _$ConversionToJson(_Conversion instance) =>
@@ -19,4 +22,7 @@ Map<String, dynamic> _$ConversionToJson(_Conversion instance) =>
       'url': instance.url.toString(),
       'coordinates': instance.coordinates,
       'mapImagePath': instance.mapImagePath,
+      'addressLine1': instance.addressLine1,
+      'addressLine2': instance.addressLine2,
+      'formattedAddress': instance.formattedAddress,
     };

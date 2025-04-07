@@ -19,7 +19,7 @@ class UrlConversionRepository {
       var convertUrlResponse = await _apiClient.convertUrl(url);
       var response = convertUrlResponse.getOrThrow();
 
-      var conversion = Conversion.fromResponse(response);
+      var conversion = Conversion.fromConvertUrlResponse(response);
 
       // Get static map image
       var staticMapResponse = await _apiClient.getStaticMap(
@@ -34,6 +34,19 @@ class UrlConversionRepository {
                 .saveImageToDisk(mapImageData)
                 .getOrNull();
         conversion = conversion.copyWith(mapImagePath: imagePath);
+      }
+
+      // Get place details
+      var placeDetailsResponse = await _apiClient.getPlaceDetails(
+        conversion.coordinates,
+      );
+      var placeDetails = placeDetailsResponse.getOrNull();
+      if (placeDetails != null) {
+        conversion = conversion.copyWith(
+          addressLine1: placeDetails.addressLine1,
+          addressLine2: placeDetails.addressLine2,
+          formattedAddress: placeDetails.formatted,
+        );
       }
 
       // Store the conversion in the local storage

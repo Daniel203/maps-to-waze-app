@@ -6,6 +6,7 @@ import 'package:logging/logging.dart';
 import 'package:maps_to_waze/data/services/api/api_client.dart';
 import 'package:maps_to_waze/data/services/api/models/convert_url_request/convert_url_request.dart';
 import 'package:maps_to_waze/data/services/api/models/convert_url_response/convert_url_response.dart';
+import 'package:maps_to_waze/data/services/api/models/place_details_response/place_details_response.dart';
 import 'package:maps_to_waze/domain/models/coordinates/coordinates.dart';
 import 'package:result_dart/result_dart.dart';
 
@@ -60,12 +61,12 @@ class ApiClientDevRemote implements ApiClient {
     _log.info("Getting static map");
     final client = _clientFactory();
     try {
-      var requestUri = Uri.parse(
-        "$_host:$_port/staticMap",
-      ).replace(queryParameters: {
-        "lat": coordinates.latitude.toString(),
-        "lon": coordinates.longitude.toString(),
-      });
+      var requestUri = Uri.parse("$_host:$_port/staticMap").replace(
+        queryParameters: {
+          "lat": coordinates.latitude.toString(),
+          "lon": coordinates.longitude.toString(),
+        },
+      );
 
       _log.info("Request URI: $requestUri");
 
@@ -87,6 +88,43 @@ class ApiClientDevRemote implements ApiClient {
       return Success(data);
     } on Exception catch (error) {
       _log.warning("Failed to get static map: $error");
+      return Failure(error);
+    } finally {
+      client.close();
+    }
+  }
+
+  @override
+  Future<Result<PlaceDetailsResponse>> getPlaceDetails(
+    Coordinates coordinates,
+  ) async {
+    _log.info("Getting place details");
+    final client = _clientFactory();
+    try {
+      var requestUri = Uri.parse("$_host:$_port/placeDetails").replace(
+        queryParameters: {
+          "lat": coordinates.latitude.toString(),
+          "lon": coordinates.longitude.toString(),
+        },
+      );
+
+      _log.info("Request URI: $requestUri");
+
+      var request = await client.getUrl(requestUri);
+      var response = await request.close();
+
+      if (response.statusCode != 200) {
+        throw HttpException(
+          "Invalid response, status code: ${response.statusCode}",
+        );
+      }
+
+      var responseBodyString = await response.transform(utf8.decoder).join();
+      var responseBodyJson = json.decode(responseBodyString);
+
+      return Success(PlaceDetailsResponse.fromJson(responseBodyJson));
+    } on Exception catch (error) {
+      _log.warning("Failed to get place details: $error");
       return Failure(error);
     } finally {
       client.close();

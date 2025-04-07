@@ -21,13 +21,16 @@ class ConversionEntityAdapter extends TypeAdapter<ConversionEntity> {
       longitude: fields[1] as String,
       latitude: fields[2] as String,
       mapImagePath: fields[4] as String?,
+      addressLine1: fields[5] as String?,
+      addressLine2: fields[6] as String?,
+      formattedAddress: fields[7] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, ConversionEntity obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.url)
       ..writeByte(1)
@@ -35,7 +38,13 @@ class ConversionEntityAdapter extends TypeAdapter<ConversionEntity> {
       ..writeByte(2)
       ..write(obj.latitude)
       ..writeByte(4)
-      ..write(obj.mapImagePath);
+      ..write(obj.mapImagePath)
+      ..writeByte(5)
+      ..write(obj.addressLine1)
+      ..writeByte(6)
+      ..write(obj.addressLine2)
+      ..writeByte(7)
+      ..write(obj.formattedAddress);
   }
 
   @override

@@ -5,11 +5,17 @@ class ConversionEntity extends HiveObject {
   String longitude;
   String latitude;
   String? mapImagePath;
+  String? addressLine1;
+  String? addressLine2;
+  String? formattedAddress;
 
   ConversionEntity({
     required this.url,
     required this.longitude,
     required this.latitude,
     required this.mapImagePath,
+    required this.addressLine1,
+    required this.addressLine2,
+    required this.formattedAddress,
   });
 }

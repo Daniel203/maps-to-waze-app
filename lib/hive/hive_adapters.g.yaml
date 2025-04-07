@@ -5,7 +5,7 @@ nextTypeId: 1
 types:
   ConversionEntity:
     typeId: 0
-    nextIndex: 5
+    nextIndex: 8
     fields:
       url:
         index: 0
@@ -15,3 +15,9 @@ types:
         index: 2
       mapImagePath:
         index: 4
+      addressLine1:
+        index: 5
+      addressLine2:
+        index: 6
+      formattedAddress:
+        index: 7

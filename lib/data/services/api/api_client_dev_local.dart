@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:logging/logging.dart';
 import 'package:maps_to_waze/data/services/api/api_client.dart';
 import 'package:maps_to_waze/data/services/api/models/convert_url_response/convert_url_response.dart';
+import 'package:maps_to_waze/data/services/api/models/place_details_response/place_details_response.dart';
 import 'package:maps_to_waze/domain/models/coordinates/coordinates.dart';
 import 'package:result_dart/result_dart.dart';
 
@@ -38,5 +39,22 @@ class ApiClientDevLocal implements ApiClient {
 
     _log.info("Successfully get static map image");
     return Success(imageBytes);
+  }
+
+  @override
+  Future<Result<PlaceDetailsResponse>> getPlaceDetails(
+    Coordinates coordinates,
+  ) async {
+    _log.info("Getting place details for coordinates: $coordinates");
+    await Future.delayed(Duration(seconds: 2));
+
+    var response = PlaceDetailsResponse(
+      formatted: "Via Torino, 5, 37019 Peschiera del Garda VR, Italia",
+      addressLine1: "Via Torino, 5",
+      addressLine2: "37019 Peschiera del Garda VR, Italia",
+    );
+
+    _log.info("Successfully get place details");
+    return Success(response);
   }
 }

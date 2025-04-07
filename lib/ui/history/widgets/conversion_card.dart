@@ -65,7 +65,7 @@ class _ConversionCardState extends State<ConversionCard> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                '${widget.conversion.coordinates.latitude}, ${widget.conversion.coordinates.longitude}',
+                                _getCardText(),
                                 style: Theme.of(context).textTheme.titleMedium,
                               ),
                               FilledButton(
@@ -112,5 +112,14 @@ class _ConversionCardState extends State<ConversionCard> {
     return Center(
       child: SizedBox(height: 150, width: double.infinity, child: child),
     );
+  }
+
+  String _getCardText() {
+    if (widget.conversion.addressLine1 != null &&
+        widget.conversion.addressLine2 != null) {
+      return "${widget.conversion.addressLine1} \n ${widget.conversion.addressLine2}";
+    }
+
+    return "${widget.conversion.coordinates.latitude}, ${widget.conversion.coordinates.longitude}";
   }
 }

@@ -32,6 +32,9 @@ class LocalStorageService {
         latitude: data.coordinates.latitude.toString(),
         longitude: data.coordinates.longitude.toString(),
         mapImagePath: data.mapImagePath,
+        addressLine1: data.addressLine1,
+        addressLine2: data.addressLine2,
+        formattedAddress: data.formattedAddress,
       );
       await box.add(localUrlData);
 
