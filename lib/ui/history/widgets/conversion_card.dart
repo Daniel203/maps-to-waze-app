@@ -9,9 +9,11 @@ import 'package:url_launcher/url_launcher.dart';
 class ConversionCard extends StatefulWidget {
   final int index;
   final HistoryViewModel viewModel;
+  final Conversion conversion;
 
   const ConversionCard({
     super.key,
+    required this.conversion,
     required this.index,
     required this.viewModel,
   });
@@ -21,23 +23,20 @@ class ConversionCard extends StatefulWidget {
 }
 
 class _ConversionCardState extends State<ConversionCard> {
-  late Conversion conversion;
-
   @override
   void initState() {
     super.initState();
-    conversion = widget.viewModel.conversions[widget.index];
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onLongPress: () {
-        widget.viewModel.toggleItemSelectedCommand.execute(widget.index);
+        widget.viewModel.toggleItemSelectedStateCommand.execute(widget.index);
       },
       onTap: () {
         if (widget.viewModel.isSelectingMode) {
-          widget.viewModel.toggleItemSelectedCommand.execute(widget.index);
+          widget.viewModel.toggleItemSelectedStateCommand.execute(widget.index);
         }
       },
 
@@ -56,7 +55,7 @@ class _ConversionCardState extends State<ConversionCard> {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _staticMapImage(context, conversion),
+                    _staticMapImage(context, widget.conversion),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Column(
@@ -66,7 +65,7 @@ class _ConversionCardState extends State<ConversionCard> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                '${conversion.coordinates.latitude}, ${conversion.coordinates.longitude}',
+                                '${widget.conversion.coordinates.latitude}, ${widget.conversion.coordinates.longitude}',
                                 style: Theme.of(context).textTheme.titleMedium,
                               ),
                               FilledButton(
@@ -74,7 +73,7 @@ class _ConversionCardState extends State<ConversionCard> {
                                   if (widget.viewModel.isSelectingMode) {
                                     return;
                                   }
-                                  Uri wazeUri = conversion.url;
+                                  Uri wazeUri = widget.conversion.url;
                                   await launchUrl(wazeUri);
                                 },
                                 child: const Text('Launch'),

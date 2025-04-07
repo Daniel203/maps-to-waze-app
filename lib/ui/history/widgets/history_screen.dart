@@ -44,8 +44,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
           },
           onData: (context, data, _) {
             return data.fold(
-              (success) {
-                if (widget.viewModel.conversions.isEmpty) {
+              (conversions) {
+                if (conversions.isEmpty) {
                   return Center(child: Text("No conversion history"));
                 }
 
@@ -57,6 +57,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                         itemBuilder: (context, index) {
                           if (index < widget.viewModel.visibleItemsCount) {
                             return ConversionCard(
+                              conversion: conversions[index],
                               viewModel: widget.viewModel,
                               index: index,
                             );

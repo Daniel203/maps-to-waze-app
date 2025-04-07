@@ -15,34 +15,30 @@ class HistoryViewModel extends ChangeNotifier {
   final UrlConversionRepository _urlConversionRepository;
   final _log = Logger('HistoryViewModel');
 
-  late Command loadHistoryCommand;
-  late Command showMoreCommand;
-  late Command toggleItemSelectedCommand;
-  late Command deleteSelectedItemsCommand;
+  late Command<void, Result<List<Conversion>>> loadHistoryCommand;
+  late Command<void, void> showMoreCommand;
+  late Command<int, bool> toggleItemSelectedStateCommand;
+  late Command<void, void> deleteSelectedItemsCommand;
 
   int _visibleItemsCount = 0;
-  int get visibleItemsCount => _visibleItemsCount;
-
   bool _hiddenItems = false;
-  bool get hiddenItems => _visibleItemsCount < _conversions.length;
-
   List<Conversion> _conversions = [];
-  List<Conversion> get conversions => _conversions;
-
   HashSet<int> _selectedItems = HashSet();
 
-  // When the user long press an item, it will be selected and enters the selecting mode
+  int get visibleItemsCount => _visibleItemsCount;
+  bool get hiddenItems => _visibleItemsCount < _conversions.length;
+  /// When the user long press an item, it will be selected and enters the selecting mode
   bool get isSelectingMode => _selectedItems.isNotEmpty;
 
   HistoryViewModel({required UrlConversionRepository urlConversionRepository})
     : _urlConversionRepository = urlConversionRepository {
-    loadHistoryCommand = Command.createAsyncNoParam<Result>(
+    loadHistoryCommand = Command.createAsyncNoParam<Result<List<Conversion>>>(
       _getConversionHistory,
       initialValue: Success([]),
     );
     showMoreCommand = Command.createSyncNoParamNoResult(_showMore);
-    toggleItemSelectedCommand = Command.createSync<int, bool>(
-      _toogleItemSelected,
+    toggleItemSelectedStateCommand = Command.createSync<int, bool>(
+      _toogleItemSelectedState,
       initialValue: false,
     );
     deleteSelectedItemsCommand = Command.createAsyncNoParamNoResult(
@@ -52,7 +48,7 @@ class HistoryViewModel extends ChangeNotifier {
     loadHistoryCommand.execute();
   }
 
-  Future<Result> _getConversionHistory() async {
+  Future<Result<List<Conversion>>> _getConversionHistory() async {
     var result = await _urlConversionRepository.getConversionHistory();
 
     return result.fold(
@@ -69,7 +65,7 @@ class HistoryViewModel extends ChangeNotifier {
 
         _selectedItems = HashSet();
         _conversions = data;
-        return Success("");
+        return Success(data);
       },
       (error) {
         _log.severe("Failed to retrieve conversion history", error);
@@ -91,7 +87,7 @@ class HistoryViewModel extends ChangeNotifier {
     }
   }
 
-  bool _toogleItemSelected(int index) {
+  bool _toogleItemSelectedState(int index) {
     if (_selectedItems.contains(index)) {
       _selectedItems.remove(index);
     } else {
@@ -120,6 +116,7 @@ class HistoryViewModel extends ChangeNotifier {
     }
 
     _selectedItems = HashSet<int>();
+    loadHistoryCommand.execute();
     notifyListeners();
     return;
   }
