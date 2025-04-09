@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Coordinates {
 
- String get longitude; String get latitude;
+ double get longitude; double get latitude;
 /// Create a copy of Coordinates
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -49,7 +49,7 @@ abstract mixin class $CoordinatesCopyWith<$Res>  {
   factory $CoordinatesCopyWith(Coordinates value, $Res Function(Coordinates) _then) = _$CoordinatesCopyWithImpl;
 @useResult
 $Res call({
- String longitude, String latitude
+ double longitude, double latitude
 });
 
 
@@ -69,8 +69,8 @@ class _$CoordinatesCopyWithImpl<$Res>
 @pragma('vm:prefer-inline') @override $Res call({Object? longitude = null,Object? latitude = null,}) {
   return _then(_self.copyWith(
 longitude: null == longitude ? _self.longitude : longitude // ignore: cast_nullable_to_non_nullable
-as String,latitude: null == latitude ? _self.latitude : latitude // ignore: cast_nullable_to_non_nullable
-as String,
+as double,latitude: null == latitude ? _self.latitude : latitude // ignore: cast_nullable_to_non_nullable
+as double,
   ));
 }
 
@@ -84,8 +84,8 @@ class _Coordinates implements Coordinates {
   const _Coordinates({required this.longitude, required this.latitude});
   factory _Coordinates.fromJson(Map<String, dynamic> json) => _$CoordinatesFromJson(json);
 
-@override final  String longitude;
-@override final  String latitude;
+@override final  double longitude;
+@override final  double latitude;
 
 /// Create a copy of Coordinates
 /// with the given fields replaced by the non-null parameter values.
@@ -120,7 +120,7 @@ abstract mixin class _$CoordinatesCopyWith<$Res> implements $CoordinatesCopyWith
   factory _$CoordinatesCopyWith(_Coordinates value, $Res Function(_Coordinates) _then) = __$CoordinatesCopyWithImpl;
 @override @useResult
 $Res call({
- String longitude, String latitude
+ double longitude, double latitude
 });
 
 
@@ -140,8 +140,8 @@ class __$CoordinatesCopyWithImpl<$Res>
 @override @pragma('vm:prefer-inline') $Res call({Object? longitude = null,Object? latitude = null,}) {
   return _then(_Coordinates(
 longitude: null == longitude ? _self.longitude : longitude // ignore: cast_nullable_to_non_nullable
-as String,latitude: null == latitude ? _self.latitude : latitude // ignore: cast_nullable_to_non_nullable
-as String,
+as double,latitude: null == latitude ? _self.latitude : latitude // ignore: cast_nullable_to_non_nullable
+as double,
   ));
 }
 

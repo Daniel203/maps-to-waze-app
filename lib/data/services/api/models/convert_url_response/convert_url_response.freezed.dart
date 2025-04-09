@@ -14,9 +14,145 @@ part of 'convert_url_response.dart';
 T _$identity<T>(T value) => value;
 
 /// @nodoc
+mixin _$CoordinatesResponse {
+
+ String get latitude; String get longitude;
+/// Create a copy of CoordinatesResponse
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$CoordinatesResponseCopyWith<CoordinatesResponse> get copyWith => _$CoordinatesResponseCopyWithImpl<CoordinatesResponse>(this as CoordinatesResponse, _$identity);
+
+  /// Serializes this CoordinatesResponse to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CoordinatesResponse&&(identical(other.latitude, latitude) || other.latitude == latitude)&&(identical(other.longitude, longitude) || other.longitude == longitude));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,latitude,longitude);
+
+@override
+String toString() {
+  return 'CoordinatesResponse(latitude: $latitude, longitude: $longitude)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $CoordinatesResponseCopyWith<$Res>  {
+  factory $CoordinatesResponseCopyWith(CoordinatesResponse value, $Res Function(CoordinatesResponse) _then) = _$CoordinatesResponseCopyWithImpl;
+@useResult
+$Res call({
+ String latitude, String longitude
+});
+
+
+
+
+}
+/// @nodoc
+class _$CoordinatesResponseCopyWithImpl<$Res>
+    implements $CoordinatesResponseCopyWith<$Res> {
+  _$CoordinatesResponseCopyWithImpl(this._self, this._then);
+
+  final CoordinatesResponse _self;
+  final $Res Function(CoordinatesResponse) _then;
+
+/// Create a copy of CoordinatesResponse
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? latitude = null,Object? longitude = null,}) {
+  return _then(_self.copyWith(
+latitude: null == latitude ? _self.latitude : latitude // ignore: cast_nullable_to_non_nullable
+as String,longitude: null == longitude ? _self.longitude : longitude // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+}
+
+
+/// @nodoc
+@JsonSerializable()
+
+class _CoordinatesResponse implements CoordinatesResponse {
+  const _CoordinatesResponse({required this.latitude, required this.longitude});
+  factory _CoordinatesResponse.fromJson(Map<String, dynamic> json) => _$CoordinatesResponseFromJson(json);
+
+@override final  String latitude;
+@override final  String longitude;
+
+/// Create a copy of CoordinatesResponse
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$CoordinatesResponseCopyWith<_CoordinatesResponse> get copyWith => __$CoordinatesResponseCopyWithImpl<_CoordinatesResponse>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$CoordinatesResponseToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CoordinatesResponse&&(identical(other.latitude, latitude) || other.latitude == latitude)&&(identical(other.longitude, longitude) || other.longitude == longitude));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,latitude,longitude);
+
+@override
+String toString() {
+  return 'CoordinatesResponse(latitude: $latitude, longitude: $longitude)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$CoordinatesResponseCopyWith<$Res> implements $CoordinatesResponseCopyWith<$Res> {
+  factory _$CoordinatesResponseCopyWith(_CoordinatesResponse value, $Res Function(_CoordinatesResponse) _then) = __$CoordinatesResponseCopyWithImpl;
+@override @useResult
+$Res call({
+ String latitude, String longitude
+});
+
+
+
+
+}
+/// @nodoc
+class __$CoordinatesResponseCopyWithImpl<$Res>
+    implements _$CoordinatesResponseCopyWith<$Res> {
+  __$CoordinatesResponseCopyWithImpl(this._self, this._then);
+
+  final _CoordinatesResponse _self;
+  final $Res Function(_CoordinatesResponse) _then;
+
+/// Create a copy of CoordinatesResponse
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? latitude = null,Object? longitude = null,}) {
+  return _then(_CoordinatesResponse(
+latitude: null == latitude ? _self.latitude : latitude // ignore: cast_nullable_to_non_nullable
+as String,longitude: null == longitude ? _self.longitude : longitude // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
 mixin _$ConvertUrlResponse {
 
- Uri get url; Coordinates get coordinates;
+ String get url; CoordinatesResponse get coordinates;
 /// Create a copy of ConvertUrlResponse
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -49,11 +185,11 @@ abstract mixin class $ConvertUrlResponseCopyWith<$Res>  {
   factory $ConvertUrlResponseCopyWith(ConvertUrlResponse value, $Res Function(ConvertUrlResponse) _then) = _$ConvertUrlResponseCopyWithImpl;
 @useResult
 $Res call({
- Uri url, Coordinates coordinates
+ String url, CoordinatesResponse coordinates
 });
 
 
-$CoordinatesCopyWith<$Res> get coordinates;
+$CoordinatesResponseCopyWith<$Res> get coordinates;
 
 }
 /// @nodoc
@@ -69,17 +205,17 @@ class _$ConvertUrlResponseCopyWithImpl<$Res>
 @pragma('vm:prefer-inline') @override $Res call({Object? url = null,Object? coordinates = null,}) {
   return _then(_self.copyWith(
 url: null == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
-as Uri,coordinates: null == coordinates ? _self.coordinates : coordinates // ignore: cast_nullable_to_non_nullable
-as Coordinates,
+as String,coordinates: null == coordinates ? _self.coordinates : coordinates // ignore: cast_nullable_to_non_nullable
+as CoordinatesResponse,
   ));
 }
 /// Create a copy of ConvertUrlResponse
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$CoordinatesCopyWith<$Res> get coordinates {
+$CoordinatesResponseCopyWith<$Res> get coordinates {
   
-  return $CoordinatesCopyWith<$Res>(_self.coordinates, (value) {
+  return $CoordinatesResponseCopyWith<$Res>(_self.coordinates, (value) {
     return _then(_self.copyWith(coordinates: value));
   });
 }
@@ -93,8 +229,8 @@ class _ConvertUrlResponse implements ConvertUrlResponse {
   const _ConvertUrlResponse({required this.url, required this.coordinates});
   factory _ConvertUrlResponse.fromJson(Map<String, dynamic> json) => _$ConvertUrlResponseFromJson(json);
 
-@override final  Uri url;
-@override final  Coordinates coordinates;
+@override final  String url;
+@override final  CoordinatesResponse coordinates;
 
 /// Create a copy of ConvertUrlResponse
 /// with the given fields replaced by the non-null parameter values.
@@ -129,11 +265,11 @@ abstract mixin class _$ConvertUrlResponseCopyWith<$Res> implements $ConvertUrlRe
   factory _$ConvertUrlResponseCopyWith(_ConvertUrlResponse value, $Res Function(_ConvertUrlResponse) _then) = __$ConvertUrlResponseCopyWithImpl;
 @override @useResult
 $Res call({
- Uri url, Coordinates coordinates
+ String url, CoordinatesResponse coordinates
 });
 
 
-@override $CoordinatesCopyWith<$Res> get coordinates;
+@override $CoordinatesResponseCopyWith<$Res> get coordinates;
 
 }
 /// @nodoc
@@ -149,8 +285,8 @@ class __$ConvertUrlResponseCopyWithImpl<$Res>
 @override @pragma('vm:prefer-inline') $Res call({Object? url = null,Object? coordinates = null,}) {
   return _then(_ConvertUrlResponse(
 url: null == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
-as Uri,coordinates: null == coordinates ? _self.coordinates : coordinates // ignore: cast_nullable_to_non_nullable
-as Coordinates,
+as String,coordinates: null == coordinates ? _self.coordinates : coordinates // ignore: cast_nullable_to_non_nullable
+as CoordinatesResponse,
   ));
 }
 
@@ -158,9 +294,9 @@ as Coordinates,
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$CoordinatesCopyWith<$Res> get coordinates {
+$CoordinatesResponseCopyWith<$Res> get coordinates {
   
-  return $CoordinatesCopyWith<$Res>(_self.coordinates, (value) {
+  return $CoordinatesResponseCopyWith<$Res>(_self.coordinates, (value) {
     return _then(_self.copyWith(coordinates: value));
   });
 }

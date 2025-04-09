@@ -6,8 +6,8 @@ part 'coordinates.g.dart';
 @freezed
 abstract class Coordinates with _$Coordinates {
   const factory Coordinates({
-    required String longitude,
-    required String latitude,
+    required double longitude,
+    required double latitude,
   }) = _Coordinates;
 
   factory Coordinates.fromJson(Map<String, dynamic> json) =>
