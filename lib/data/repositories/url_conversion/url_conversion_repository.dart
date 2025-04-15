@@ -1,6 +1,5 @@
 import 'package:maps_to_waze/data/services/api/api_client.dart';
 import 'package:maps_to_waze/data/services/local_storage/local_storage_service.dart';
-import 'package:maps_to_waze/data/services/local_storage/models/conversion/conversion_entity.dart';
 import 'package:maps_to_waze/domain/models/conversion/conversion.dart';
 import 'package:result_dart/result_dart.dart';
 
@@ -53,38 +52,6 @@ class UrlConversionRepository {
       await _localStorageService.saveConversion(conversion);
 
       return Success(conversion);
-    } on Exception catch (error) {
-      return Failure(error);
-    }
-  }
-
-  Future<Result<List<Conversion>>> getConversionHistory() async {
-    try {
-      var conversionEntityHistory =
-          await _localStorageService.getConversionHistory().getOrThrow();
-
-      List<Conversion> result =
-          conversionEntityHistory
-              .map((ConversionEntity c) {
-                try {
-                  return Success(Conversion.fromEntity(c));
-                } on Exception {
-                  return null;
-                }
-              })
-              .whereType<Success>()
-              .map((Success s) => s.getOrNull() as Conversion)
-              .toList();
-
-      return Success(result);
-    } on Exception catch (error) {
-      return Failure(error);
-    }
-  }
-
-  Future<Result> deleteConversion(Conversion conversion) async {
-    try {
-      return await _localStorageService.deleteConversion(conversion);
     } on Exception catch (error) {
       return Failure(error);
     }

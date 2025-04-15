@@ -1,7 +1,10 @@
 import 'package:maps_to_waze/config/config.dart';
-import 'package:maps_to_waze/data/repositories/url_conversion/url_conversion_respository.dart';
-import 'package:maps_to_waze/data/repositories/url_conversion/url_conversion_respository_dev.dart';
-import 'package:maps_to_waze/data/repositories/url_conversion/url_conversion_respository_prod.dart';
+import 'package:maps_to_waze/data/repositories/history/history_repository.dart';
+import 'package:maps_to_waze/data/repositories/history/history_repository_dev.dart';
+import 'package:maps_to_waze/data/repositories/history/history_repository_prod.dart';
+import 'package:maps_to_waze/data/repositories/url_conversion/url_conversion_repository.dart';
+import 'package:maps_to_waze/data/repositories/url_conversion/url_conversion_repository_dev.dart';
+import 'package:maps_to_waze/data/repositories/url_conversion/url_conversion_repository_prod.dart';
 import 'package:maps_to_waze/data/services/api/api_client_dev_local.dart';
 import 'package:maps_to_waze/data/services/api/api_client_dev_remote.dart';
 import 'package:maps_to_waze/data/services/api/api_client_prod.dart';
@@ -29,6 +32,14 @@ List<SingleChildWidget> get providersDev {
                   )
                   as UrlConversionRepository,
     ),
+    Provider(
+      create:
+          (context) =>
+              HistoryRepositoryDev(
+                    localStorageService: context.read<LocalStorageServiceDev>(),
+                  )
+                  as HistoryRepository,
+    ),
   ];
 }
 
@@ -50,6 +61,14 @@ List<SingleChildWidget> get providersProd {
                         context.read<LocalStorageServiceProd>(),
                   )
                   as UrlConversionRepository,
+    ),
+    Provider(
+      create:
+          (context) =>
+              HistoryRepositoryProd(
+                    localStorageService: context.read<LocalStorageServiceDev>(),
+                  )
+                  as HistoryRepository,
     ),
   ];
 }
