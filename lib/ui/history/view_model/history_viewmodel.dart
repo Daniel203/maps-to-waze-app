@@ -4,7 +4,7 @@ import 'dart:math';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_command/flutter_command.dart';
 import 'package:logging/logging.dart';
-import 'package:maps_to_waze/data/repositories/url_conversion/url_conversion_respository.dart';
+import 'package:maps_to_waze/data/repositories/history/history_repository.dart';
 import 'package:maps_to_waze/domain/models/conversion/conversion.dart';
 import 'package:result_dart/result_dart.dart';
 
@@ -12,7 +12,7 @@ import 'package:result_dart/result_dart.dart';
 const int maxVisibleItems = 10;
 
 class HistoryViewModel extends ChangeNotifier {
-  final UrlConversionRepository _urlConversionRepository;
+  final HistoryRepository _historyRepository;
   final _log = Logger('HistoryViewModel');
 
   late Command<void, Result<List<Conversion>>> loadHistoryCommand;
@@ -30,8 +30,8 @@ class HistoryViewModel extends ChangeNotifier {
   /// When the user long press an item, it will be selected and enters the selecting mode
   bool get isSelectingMode => _selectedItems.isNotEmpty;
 
-  HistoryViewModel({required UrlConversionRepository urlConversionRepository})
-    : _urlConversionRepository = urlConversionRepository {
+  HistoryViewModel({required HistoryRepository historyRepository})
+    : _historyRepository = historyRepository {
     loadHistoryCommand = Command.createAsyncNoParam<Result<List<Conversion>>>(
       _getConversionHistory,
       initialValue: Success([]),
@@ -49,7 +49,7 @@ class HistoryViewModel extends ChangeNotifier {
   }
 
   Future<Result<List<Conversion>>> _getConversionHistory() async {
-    var result = await _urlConversionRepository.getConversionHistory();
+    var result = await _historyRepository.getConversionHistory();
 
     return result.fold(
       (data) {
@@ -112,7 +112,7 @@ class HistoryViewModel extends ChangeNotifier {
         continue;
       }
       var conversion = _conversions[index];
-      await _urlConversionRepository.deleteConversion(conversion);
+      await _historyRepository.deleteConversion(conversion);
     }
 
     _selectedItems = HashSet<int>();

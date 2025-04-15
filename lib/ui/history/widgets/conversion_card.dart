@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:maps_to_waze/domain/models/conversion/conversion.dart';
 import 'package:maps_to_waze/ui/core/themes/dimens.dart';
 import 'package:maps_to_waze/ui/history/view_model/history_viewmodel.dart';
@@ -33,10 +34,12 @@ class _ConversionCardState extends State<ConversionCard> {
     return GestureDetector(
       onLongPress: () {
         widget.viewModel.toggleItemSelectedStateCommand.execute(widget.index);
+        HapticFeedback.selectionClick();
       },
       onTap: () {
         if (widget.viewModel.isSelectingMode) {
           widget.viewModel.toggleItemSelectedStateCommand.execute(widget.index);
+          HapticFeedback.selectionClick();
         }
       },
 

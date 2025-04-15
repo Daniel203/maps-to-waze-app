@@ -22,6 +22,15 @@ class LocalStorageService {
     return Hive.box<T>(boxName);
   }
 
+  bool _checkFileExists(File file) {
+    try {
+      return file.existsSync();
+    } catch (e) {
+      _log.warning("Error checking file existence: $e");
+      return false;
+    }
+  }
+
   Future<Result> saveConversion(Conversion data) async {
     _log.info("Saving conversion data to local storage");
     try {
@@ -65,7 +74,7 @@ class LocalStorageService {
   Future<Result> clearConversionHistory() async {
     _log.info("Clearing conversion history from local storage");
     try {
-      final box = await _openBox<Conversion>(historyBoxName);
+      final box = await _openBox<ConversionEntity>(historyBoxName);
       await box.clear();
       _log.info("Conversion history cleared successfully");
       return Success("");
@@ -118,12 +127,33 @@ class LocalStorageService {
     }
   }
 
-  bool _checkFileExists(File file) {
+  Future<Result<List<ConversionEntity>>> searchConversions(String query) async {
+    _log.info("Searching conversion for query: $query");
     try {
-      return file.existsSync();
-    } catch (e) {
-      _log.warning("Error checking file existence: $e");
-      return false;
+      final box = await _openBox<ConversionEntity>(historyBoxName);
+
+      if (query.isEmpty) {
+        _log.info("Query is empty, returning all conversions");
+        return await getConversionHistory();
+      }
+
+      query = query.toLowerCase();
+
+      List<ConversionEntity> filteredConversions =
+          box.values
+              .where(
+                (c) =>
+                    (c.addressLine1?.toLowerCase().contains(query) ?? false) ||
+                    (c.addressLine2?.toLowerCase().contains(query) ?? false) ||
+                    (c.formattedAddress?.toLowerCase().contains(query) ?? false),
+              )
+              .toList();
+
+      _log.info("Found ${filteredConversions.length} elements");
+      return Success(filteredConversions);
+    } on Exception catch (error) {
+      _log.warning("Failed to search conversions: $error");
+      return Failure(error);
     }
   }
 }

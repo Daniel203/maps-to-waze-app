@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_command/flutter_command.dart';
 import 'package:logging/logging.dart';
-import 'package:maps_to_waze/data/repositories/url_conversion/url_conversion_respository.dart';
+import 'package:maps_to_waze/data/repositories/url_conversion/url_conversion_repository.dart';
 import 'package:result_dart/result_dart.dart';
 
 class ConvertUrlViewModel extends ChangeNotifier {
