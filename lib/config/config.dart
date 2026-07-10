@@ -10,7 +10,11 @@ class ConfigProd extends Config {
 }
 
 class ConfigDev extends Config {
-  static const String backendHost = "http://10.0.2.2";
+  // Use this if running in android emulator
+  // static const String backendHost = "http://10.0.2.2";
+  // Use this if running in docker, run the following command in docker 
+  // `adb reverse tcp:8080 tcp:8080`
+  static const String backendHost = "http://127.0.0.1";
   static const int backendPort = 8080;
   static const Level loggerLevel = Level.ALL;
 }

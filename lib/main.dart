@@ -6,7 +6,7 @@ import 'package:maps_to_waze/ui/core/themes/theme.dart';
 import 'package:receive_sharing_intent/receive_sharing_intent.dart';
 import 'main_dev.dart' as development;
 
-main() async {
+Future<void> main() async {
   // Run development environment by default
   await development.main();
 }

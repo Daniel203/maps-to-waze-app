@@ -1,0 +1,21 @@
+services:
+  flutter-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+      - /dev/bus/usb:/dev/bus/usb
+      - gradle_cache:/home/developer/.gradle
+      - pub_cache:/home/developer/.pub-cache    
+      - dart_tool_cache:/app/.dart_tool
+      - app_build_cache:/app/build
+    privileged: true
+    stdin_open: true
+    tty: true
+
+volumes:
+  gradle_cache:
+  pub_cache:
+  dart_tool_cache:
+  app_build_cache:

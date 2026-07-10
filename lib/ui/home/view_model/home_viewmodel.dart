@@ -24,7 +24,7 @@ class HomeViewModel extends ChangeNotifier {
     );
   }
 
-  get urlTextController => _urlTextController;
+  TextEditingController get urlTextController => _urlTextController;
 
   void _urlChanged(String url) {
     if (urlTextController.text != url) {
