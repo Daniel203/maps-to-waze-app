@@ -12,6 +12,7 @@ class HomeViewModel extends ChangeNotifier {
   late Command pasteFromClipboard;
 
   final TextEditingController _urlTextController = TextEditingController();
+  String? _pendingUrl;
 
   HomeViewModel() {
     urlChangedCommand = Command.createSyncNoResult<String>(_urlChanged);
@@ -26,6 +27,12 @@ class HomeViewModel extends ChangeNotifier {
 
   TextEditingController get urlTextController => _urlTextController;
 
+  String? consumePendingUrl() {
+    final url = _pendingUrl;
+    _pendingUrl = null;
+    return url;
+  }
+
   void _urlChanged(String url) {
     if (urlTextController.text != url) {
       urlTextController.text = url;
@@ -35,12 +42,10 @@ class HomeViewModel extends ChangeNotifier {
   }
 
   bool get valid {
-    // check if the url is valid to be converted
     if (urlTextController.text.isEmpty) {
       return false;
     }
 
-    // convert to uri
     try {
       Uri uri = Uri.parse(urlTextController.text);
       if (!uri.hasAbsolutePath) {
@@ -60,6 +65,8 @@ class HomeViewModel extends ChangeNotifier {
     }
 
     _log.info("Submitted url");
+    _pendingUrl = urlTextController.text;
+    notifyListeners();
     return Success(urlTextController.text);
   }
 

@@ -33,6 +33,7 @@ class ApiClientProd implements ApiClient {
     try {
       var requestUri = Uri.parse("$_host:$_port/convertUrl");
       var request = await client.postUrl(requestUri);
+      request.headers.set('Content-Type', 'application/json');
       var requestBody = ConvertUrlRequest(url: url);
       request.write(json.encode(requestBody.toJson()));
       var response = await request.close();

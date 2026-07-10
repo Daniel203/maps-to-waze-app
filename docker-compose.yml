@@ -10,6 +10,7 @@ services:
       - pub_cache:/home/developer/.pub-cache    
       - dart_tool_cache:/app/.dart_tool
       - app_build_cache:/app/build
+    network_mode: host
     privileged: true
     stdin_open: true
     tty: true

@@ -8,5 +8,9 @@ sudo chown -R developer:developer /home/developer /app/.dart_tool /app/build 2>/
 sudo /opt/android-sdk/platform-tools/adb kill-server
 sudo /opt/android-sdk/platform-tools/adb start-server
 
+# Wait for device and set up reverse port forwarding to backend
+sudo /opt/android-sdk/platform-tools/adb wait-for-device
+sudo /opt/android-sdk/platform-tools/adb reverse tcp:8080 tcp:8080
+
 # Hand control back over to whatever command Docker was asked to run (e.g., 'bash' or 'flutter run')
 exec "$@"
