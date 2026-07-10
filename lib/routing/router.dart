@@ -76,6 +76,7 @@ GoRouter router() => GoRouter(
               builder: (BuildContext context, GoRouterState state) {
                 final viewModel = HistoryViewModel(
                   historyRepository: context.read(),
+                  urlConversionRepository: context.read(),
                 );
                 return HistoryScreen(viewModel: viewModel);
               },

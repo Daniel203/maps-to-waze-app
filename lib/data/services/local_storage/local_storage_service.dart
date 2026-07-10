@@ -55,6 +55,32 @@ class LocalStorageService {
     }
   }
 
+  Future<Result> updateConversion(Conversion data) async {
+    _log.info("Updating conversion data in local storage");
+    try {
+      final box = await _openBox<ConversionEntity>(historyBoxName);
+      final entity = box.values.firstWhere(
+        (c) =>
+            c.url == data.url.toString() &&
+            c.latitude == data.coordinates.latitude.toString() &&
+            c.longitude == data.coordinates.longitude.toString(),
+      );
+
+      entity.mapImagePath = data.mapImagePath;
+      entity.addressLine1 = data.addressLine1;
+      entity.addressLine2 = data.addressLine2;
+      entity.formattedAddress = data.formattedAddress;
+      entity.enrichmentAttempts = data.enrichmentAttempts;
+      await entity.save();
+
+      _log.info("Conversion data updated successfully");
+      return Success("");
+    } on Exception catch (error) {
+      _log.warning("Failed to update conversion data: $error");
+      return Failure(error);
+    }
+  }
+
   Future<Result<List<ConversionEntity>>> getConversionHistory() async {
     _log.info("Fetching conversion history from local storage");
     try {

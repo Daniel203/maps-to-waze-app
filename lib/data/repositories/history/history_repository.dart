@@ -41,6 +41,14 @@ class HistoryRepository {
     }
   }
 
+  Future<Result> updateConversion(Conversion conversion) async {
+    try {
+      return await _localStorageService.updateConversion(conversion);
+    } on Exception catch (error) {
+      return Failure(error);
+    }
+  }
+
   Future<Result<List<Conversion>>> searchConversions(String query) async {
     try {
       var filteredConversions =

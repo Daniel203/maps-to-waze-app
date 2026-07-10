@@ -8,7 +8,7 @@ part of 'hive_adapters.dart';
 
 class ConversionEntityAdapter extends TypeAdapter<ConversionEntity> {
   @override
-  final int typeId = 0;
+  final typeId = 0;
 
   @override
   ConversionEntity read(BinaryReader reader) {
@@ -24,13 +24,14 @@ class ConversionEntityAdapter extends TypeAdapter<ConversionEntity> {
       addressLine1: fields[5] as String?,
       addressLine2: fields[6] as String?,
       formattedAddress: fields[7] as String?,
+      enrichmentAttempts: fields[8] == null ? 0 : (fields[8] as num).toInt(),
     );
   }
 
   @override
   void write(BinaryWriter writer, ConversionEntity obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(8)
       ..writeByte(0)
       ..write(obj.url)
       ..writeByte(1)
@@ -44,7 +45,9 @@ class ConversionEntityAdapter extends TypeAdapter<ConversionEntity> {
       ..writeByte(6)
       ..write(obj.addressLine2)
       ..writeByte(7)
-      ..write(obj.formattedAddress);
+      ..write(obj.formattedAddress)
+      ..writeByte(8)
+      ..write(obj.enrichmentAttempts);
   }
 
   @override

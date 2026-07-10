@@ -8,6 +8,7 @@ class ConversionEntity extends HiveObject {
   String? addressLine1;
   String? addressLine2;
   String? formattedAddress;
+  int enrichmentAttempts;
 
   ConversionEntity({
     required this.url,
@@ -17,5 +18,6 @@ class ConversionEntity extends HiveObject {
     required this.addressLine1,
     required this.addressLine2,
     required this.formattedAddress,
+    this.enrichmentAttempts = 0,
   });
 }

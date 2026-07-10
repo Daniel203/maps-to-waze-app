@@ -5,7 +5,7 @@ nextTypeId: 1
 types:
   ConversionEntity:
     typeId: 0
-    nextIndex: 8
+    nextIndex: 9
     fields:
       url:
         index: 0
@@ -21,3 +21,5 @@ types:
         index: 6
       formattedAddress:
         index: 7
+      enrichmentAttempts:
+        index: 8

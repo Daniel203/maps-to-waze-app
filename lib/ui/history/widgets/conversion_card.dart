@@ -58,7 +58,7 @@ class _ConversionCardState extends State<ConversionCard> {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _staticMapImage(context, widget.conversion),
+                    _staticMapImage(context, widget.index, widget.conversion),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Column(
@@ -67,10 +67,15 @@ class _ConversionCardState extends State<ConversionCard> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                _getCardText(),
-                                style: Theme.of(context).textTheme.titleMedium,
+                              Expanded(
+                                child: Text(
+                                  _getCardText(),
+                                  style: Theme.of(context).textTheme.titleMedium,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                               ),
+                              const SizedBox(width: 8),
                               FilledButton(
                                 onPressed: () async {
                                   if (widget.viewModel.isSelectingMode) {
@@ -100,11 +105,16 @@ class _ConversionCardState extends State<ConversionCard> {
     );
   }
 
-  Widget _staticMapImage(BuildContext context, Conversion conversion) {
+  Widget _staticMapImage(BuildContext context, int index, Conversion conversion) {
     Widget child;
 
     if (conversion.mapImagePath != null) {
       child = Image.file(File(conversion.mapImagePath!), fit: BoxFit.cover);
+    } else if (widget.viewModel.isHydrating(index)) {
+      child = Container(
+        color: Theme.of(context).colorScheme.surfaceContainerHighest,
+        child: Center(child: CircularProgressIndicator()),
+      );
     } else {
       child = Container(
         color: Theme.of(context).colorScheme.primaryContainer,

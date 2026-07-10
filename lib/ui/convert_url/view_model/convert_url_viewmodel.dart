@@ -27,9 +27,9 @@ class ConvertUrlViewModel extends ChangeNotifier {
     var result = await _urlConversionRepository.convertUrl(url);
 
     return result.fold(
-      (response) {
+      (uri) {
         _log.info("Url converted successfully");
-        return Success(response.url);
+        return Success(uri);
       },
       (error) {
         _log.severe("Url conversion failed", error);
