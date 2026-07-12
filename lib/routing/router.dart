@@ -42,9 +42,7 @@ GoRouter router() => GoRouter(
             final String base64EncodedUrl =
                 state.pathParameters["encodedUrl"] ?? "";
             final String url = utf8.decode(base64Url.decode(base64EncodedUrl));
-            viewModel.convertUrlCommand.execute(url);
-
-            return ConvertUrlScreen(viewModel: viewModel);
+            return ConvertUrlScreen(viewModel: viewModel, url: url);
           },
         ),
       ],

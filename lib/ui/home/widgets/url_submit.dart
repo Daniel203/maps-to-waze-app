@@ -45,7 +45,7 @@ class _UrlSubmitState extends State<UrlSubmit> {
         key: const ValueKey(urlInputSubmitButtonKey),
         onPressed:
             widget.viewModel.valid
-                ? widget.viewModel.sumbitUrlCommand.execute
+                ? widget.viewModel.submitUrlCommand.execute
                 : null,
         child: Text("Open in Waze"),
       ),

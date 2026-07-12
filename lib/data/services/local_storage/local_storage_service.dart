@@ -101,6 +101,11 @@ class LocalStorageService {
     _log.info("Clearing conversion history from local storage");
     try {
       final box = await _openBox<ConversionEntity>(historyBoxName);
+      for (var entity in box.values) {
+        if (entity.mapImagePath != null) {
+          File(entity.mapImagePath!).deleteSync();
+        }
+      }
       await box.clear();
       _log.info("Conversion history cleared successfully");
       return Success("");
@@ -122,6 +127,9 @@ class LocalStorageService {
             c.longitude == conversion.coordinates.longitude.toString(),
       );
 
+      if (conversion.mapImagePath != null) {
+        File(conversion.mapImagePath!).deleteSync();
+      }
       await conversionToDelete.delete();
       _log.info("Conversion deleted successfully");
       return Success("");
@@ -135,7 +143,7 @@ class LocalStorageService {
     try {
       _log.info("Saving image to disk");
       final directory = await getApplicationDocumentsDirectory();
-      final fileName = "${Uuid().v4()}jpg";
+      final fileName = "${Uuid().v4()}.jpg";
       final filePath = join(directory.path, fileName);
       final file = File(filePath);
       await file.writeAsBytes(imageData);

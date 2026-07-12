@@ -66,7 +66,7 @@ List<SingleChildWidget> get providersProd {
       create:
           (context) =>
               HistoryRepositoryProd(
-                    localStorageService: context.read<LocalStorageServiceDev>(),
+                    localStorageService: context.read<LocalStorageServiceProd>(),
                   )
                   as HistoryRepository,
     ),

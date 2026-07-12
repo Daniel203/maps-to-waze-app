@@ -8,7 +8,7 @@ class HomeViewModel extends ChangeNotifier {
   final _log = Logger('HomeViewModel');
 
   late Command urlChangedCommand;
-  late Command sumbitUrlCommand;
+  late Command submitUrlCommand;
   late Command pasteFromClipboard;
 
   final TextEditingController _urlTextController = TextEditingController();
@@ -16,7 +16,7 @@ class HomeViewModel extends ChangeNotifier {
 
   HomeViewModel() {
     urlChangedCommand = Command.createSyncNoResult<String>(_urlChanged);
-    sumbitUrlCommand = Command.createAsyncNoParam<Result<String>?>(
+    submitUrlCommand = Command.createAsyncNoParam<Result<String>?>(
       _submitUrl,
       initialValue: null,
     );
