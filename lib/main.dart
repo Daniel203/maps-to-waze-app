@@ -1,17 +1,35 @@
 import 'dart:async';
+import 'dart:developer' as developer;
 
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hive_ce_flutter/adapters.dart';
+import 'package:logging/logging.dart';
+import 'package:maps_to_waze/config/dependencies.dart';
+import 'package:maps_to_waze/hive/hive_registrar.g.dart';
 import 'package:maps_to_waze/routing/router.dart';
 import 'package:maps_to_waze/routing/routes.dart';
 import 'package:maps_to_waze/ui/core/themes/theme.dart';
+import 'package:provider/provider.dart';
 import 'package:receive_sharing_intent/receive_sharing_intent.dart';
 
-import 'main_dev.dart' as development;
+const _loggerLevel = String.fromEnvironment('loggerLevel', defaultValue: 'ALL');
 
 Future<void> main() async {
-  await development.main();
+  WidgetsFlutterBinding.ensureInitialized();
+
+  Hive.initFlutter();
+  Hive.registerAdapters();
+
+  Logger.root.level = _loggerLevel == 'INFO' ? Level.INFO : Level.ALL;
+  Logger.root.onRecord.listen((record) {
+    developer.log(
+      '${record.level.name}: ${record.time}: ${record.message}',
+    );
+  });
+
+  runApp(MultiProvider(providers: providers, child: const MainApp()));
 }
 
 class MainApp extends StatefulWidget {

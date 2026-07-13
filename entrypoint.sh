@@ -4,10 +4,8 @@
 # (The '|| true' prevents the script from crashing if the folders don't exist yet)
 sudo chown -R developer:developer /home/developer /app/.dart_tool /app/build 2>/dev/null || true
 
-# Automatically restart the ADB server as root to grab the USB connection
-sudo /opt/android-sdk/platform-tools/adb kill-server
-sudo /opt/android-sdk/platform-tools/adb start-server
-
+# Use the host's ADB server (already authorized with the phone's RSA key).
+# The container shares the host network, so adb connects through it.
 # Wait for device and set up reverse port forwarding to backend
 sudo /opt/android-sdk/platform-tools/adb wait-for-device
 sudo /opt/android-sdk/platform-tools/adb reverse tcp:8080 tcp:8080

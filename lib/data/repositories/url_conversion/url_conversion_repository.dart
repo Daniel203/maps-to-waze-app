@@ -1,9 +1,7 @@
 import 'dart:async';
-import 'dart:typed_data';
 
 import 'package:logging/logging.dart';
 import 'package:maps_to_waze/data/services/api/api_client.dart';
-import 'package:maps_to_waze/data/services/api/models/place_details_response/place_details_response.dart';
 import 'package:maps_to_waze/data/services/local_storage/local_storage_service.dart';
 import 'package:maps_to_waze/domain/models/conversion/conversion.dart';
 import 'package:result_dart/result_dart.dart';
@@ -38,39 +36,37 @@ class UrlConversionRepository {
 
   Future<Result<Conversion>> hydrateConversion(Conversion conversion) async {
     try {
-      var results = await Future.wait<Object>([
-        _apiClient.getStaticMap(conversion.coordinates),
-        _apiClient.getPlaceDetails(conversion.coordinates),
-      ]);
+      var mapResult = await _apiClient.getStaticMap(conversion.coordinates);
+      var detailsResult =
+          await _apiClient.getPlaceDetails(conversion.coordinates);
 
       var updatedConversion = conversion;
 
-      if (results[0] is Result<Uint8List>) {
-        var mapImageData = (results[0] as Result<Uint8List>).getOrNull();
-        if (mapImageData != null && mapImageData.isNotEmpty) {
-          var imagePath =
-              await _localStorageService
-                  .saveImageToDisk(mapImageData)
-                  .getOrNull();
-          if (imagePath != null) {
-            updatedConversion = updatedConversion.copyWith(
-              mapImagePath: imagePath,
+      mapResult.fold(
+        (mapImageData) {
+          if (mapImageData.isNotEmpty) {
+            _localStorageService.saveImageToDisk(mapImageData).fold(
+              (imagePath) {
+                updatedConversion =
+                    updatedConversion.copyWith(mapImagePath: imagePath);
+              },
+              (_) {},
             );
           }
-        }
-      }
+        },
+        (_) {},
+      );
 
-      if (results[1] is Result<PlaceDetailsResponse>) {
-        var placeDetails =
-            (results[1] as Result<PlaceDetailsResponse>).getOrNull();
-        if (placeDetails != null) {
+      detailsResult.fold(
+        (placeDetails) {
           updatedConversion = updatedConversion.copyWith(
             addressLine1: placeDetails.addressLine1,
             addressLine2: placeDetails.addressLine2,
             formattedAddress: placeDetails.formatted,
           );
-        }
-      }
+        },
+        (_) {},
+      );
 
       await _localStorageService.updateConversion(updatedConversion);
 

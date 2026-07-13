@@ -36,15 +36,17 @@ class _ConvertUrlScreenState extends State<ConvertUrlScreen> {
           onData: (context, data, _) {
             return data.fold(
               (Uri uri) {
-                WidgetsBinding.instance.addPostFrameCallback((_) async {
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  if (!mounted) return;
                   context.go(Routes.home);
-                  await launchUrl(uri);
+                  launchUrl(uri);
                 });
 
                 return SizedBox.shrink();
               },
               (error) {
                 WidgetsBinding.instance.addPostFrameCallback((_) {
+                  if (!mounted) return;
                   context.go(Routes.home);
                 });
                 return SizedBox.shrink();

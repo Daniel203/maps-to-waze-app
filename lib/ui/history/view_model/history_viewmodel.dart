@@ -80,7 +80,7 @@ class HistoryViewModel extends ChangeNotifier {
 
         _selectedItems = HashSet();
         _conversions = data;
-
+        _hydrationStates.clear();
         _hydratePendingConversions();
 
         return Success(data);
@@ -190,17 +190,14 @@ class HistoryViewModel extends ChangeNotifier {
       return;
     }
 
-    for (var index in _selectedItems) {
-      if (index < 0 || index >= _conversions.length) {
-        continue;
-      }
-      var conversion = _conversions[index];
-      await _historyRepository.deleteConversion(conversion);
-    }
+    await Future.wait(
+      _selectedItems
+          .where((i) => i >= 0 && i < _conversions.length)
+          .map((i) => _historyRepository.deleteConversion(_conversions[i])),
+    );
 
     _selectedItems = HashSet<int>();
     loadHistoryCommand.execute();
     notifyListeners();
-    return;
   }
 }
