@@ -78,6 +78,7 @@ class HomeViewModel extends ChangeNotifier {
       if (clipboardText != null) {
         urlTextController.text = clipboardText;
         notifyListeners();
+        HapticFeedback.lightImpact();
         _log.info("Pasted from clipboard: $clipboardText");
       }
     }

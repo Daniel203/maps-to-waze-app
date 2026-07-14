@@ -42,31 +42,27 @@ class UrlConversionRepository {
 
       var updatedConversion = conversion;
 
-      mapResult.fold(
-        (mapImageData) {
-          if (mapImageData.isNotEmpty) {
-            _localStorageService.saveImageToDisk(mapImageData).fold(
-              (imagePath) {
-                updatedConversion =
-                    updatedConversion.copyWith(mapImagePath: imagePath);
-              },
-              (_) {},
+      if (mapResult.isSuccess()) {
+        var mapImageData = mapResult.getOrThrow();
+        if (mapImageData.isNotEmpty) {
+          var saveResult =
+              await _localStorageService.saveImageToDisk(mapImageData);
+          if (saveResult.isSuccess()) {
+            updatedConversion = updatedConversion.copyWith(
+              mapImagePath: saveResult.getOrThrow(),
             );
           }
-        },
-        (_) {},
-      );
+        }
+      }
 
-      detailsResult.fold(
-        (placeDetails) {
-          updatedConversion = updatedConversion.copyWith(
-            addressLine1: placeDetails.addressLine1,
-            addressLine2: placeDetails.addressLine2,
-            formattedAddress: placeDetails.formatted,
-          );
-        },
-        (_) {},
-      );
+      if (detailsResult.isSuccess()) {
+        var placeDetails = detailsResult.getOrThrow();
+        updatedConversion = updatedConversion.copyWith(
+          addressLine1: placeDetails.addressLine1,
+          addressLine2: placeDetails.addressLine2,
+          formattedAddress: placeDetails.formatted,
+        );
+      }
 
       await _localStorageService.updateConversion(updatedConversion);
 

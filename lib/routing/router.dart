@@ -12,6 +12,32 @@ import 'package:maps_to_waze/ui/home/view_model/home_viewmodel.dart';
 import 'package:maps_to_waze/ui/home/widgets/home_screen.dart';
 import 'package:provider/provider.dart';
 
+Page<T> _slideUpPage<T>({
+  required LocalKey key,
+  required Widget child,
+}) {
+  return CustomTransitionPage<T>(
+    key: key,
+    child: child,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      return SlideTransition(
+        position: Tween<Offset>(
+          begin: const Offset(0, 0.05),
+          end: Offset.zero,
+        ).animate(CurvedAnimation(
+          parent: animation,
+          curve: Curves.easeInOut,
+        )),
+        child: FadeTransition(
+          opacity: animation,
+          child: child,
+        ),
+      );
+    },
+    transitionDuration: const Duration(milliseconds: 250),
+  );
+}
+
 final GlobalKey<NavigatorState> _homeNavigatorKey = GlobalKey<NavigatorState>(
   debugLabel: 'homeNav',
 );
@@ -24,17 +50,20 @@ GoRouter router() => GoRouter(
   routes: [
     GoRoute(
       path: Routes.convertUrlRelative,
-      builder: (context, state) {
+      pageBuilder: (context, state) {
         final viewModel = ConvertUrlViewModel(
           urlConversionRepository: context.read(),
         );
 
-        return ConvertUrlScreen(viewModel: viewModel);
+        return _slideUpPage(
+          key: state.pageKey,
+          child: ConvertUrlScreen(viewModel: viewModel),
+        );
       },
       routes: [
         GoRoute(
           path: ":encodedUrl",
-          builder: (context, state) {
+          pageBuilder: (context, state) {
             final viewModel = ConvertUrlViewModel(
               urlConversionRepository: context.read(),
             );
@@ -42,7 +71,10 @@ GoRouter router() => GoRouter(
             final String base64EncodedUrl =
                 state.pathParameters["encodedUrl"] ?? "";
             final String url = utf8.decode(base64Url.decode(base64EncodedUrl));
-            return ConvertUrlScreen(viewModel: viewModel, url: url);
+            return _slideUpPage(
+              key: state.pageKey,
+              child: ConvertUrlScreen(viewModel: viewModel, url: url),
+            );
           },
         ),
       ],

@@ -16,6 +16,7 @@ _Conversion _$ConversionFromJson(Map<String, dynamic> json) => _Conversion(
   addressLine2: json['addressLine2'] as String?,
   formattedAddress: json['formattedAddress'] as String?,
   enrichmentAttempts: (json['enrichmentAttempts'] as num?)?.toInt() ?? 0,
+  isFavorite: json['isFavorite'] as bool? ?? false,
 );
 
 Map<String, dynamic> _$ConversionToJson(_Conversion instance) =>
@@ -27,4 +28,5 @@ Map<String, dynamic> _$ConversionToJson(_Conversion instance) =>
       'addressLine2': instance.addressLine2,
       'formattedAddress': instance.formattedAddress,
       'enrichmentAttempts': instance.enrichmentAttempts,
+      'isFavorite': instance.isFavorite,
     };

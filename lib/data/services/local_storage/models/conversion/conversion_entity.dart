@@ -9,6 +9,7 @@ class ConversionEntity extends HiveObject {
   String? addressLine2;
   String? formattedAddress;
   int enrichmentAttempts;
+  bool isFavorite;
 
   ConversionEntity({
     required this.url,
@@ -19,5 +20,6 @@ class ConversionEntity extends HiveObject {
     required this.addressLine2,
     required this.formattedAddress,
     this.enrichmentAttempts = 0,
+    this.isFavorite = false,
   });
 }

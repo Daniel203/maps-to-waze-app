@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  final double? scrolledUnderElevation = null;
-  final bool shadowColor = false;
   final List<Widget>? actions;
+  final String? title;
 
-  const CustomAppBar({super.key, this.actions});
+  const CustomAppBar({super.key, this.actions, this.title});
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: const Text("Maps to Waze"),
-      scrolledUnderElevation: scrolledUnderElevation,
-      shadowColor: shadowColor ? Theme.of(context).colorScheme.shadow : null,
+      title: Text(title ?? "Maps to Waze"),
       actions: actions,
+      scrolledUnderElevation: 3.0,
     );
   }
 

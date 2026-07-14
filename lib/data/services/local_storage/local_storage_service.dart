@@ -44,6 +44,7 @@ class LocalStorageService {
         addressLine1: data.addressLine1,
         addressLine2: data.addressLine2,
         formattedAddress: data.formattedAddress,
+        isFavorite: data.isFavorite,
       );
       await box.add(localUrlData);
 
@@ -71,6 +72,7 @@ class LocalStorageService {
       entity.addressLine2 = data.addressLine2;
       entity.formattedAddress = data.formattedAddress;
       entity.enrichmentAttempts = data.enrichmentAttempts;
+      entity.isFavorite = data.isFavorite;
       await entity.save();
 
       _log.info("Conversion data updated successfully");
@@ -127,9 +129,6 @@ class LocalStorageService {
             c.longitude == conversion.coordinates.longitude.toString(),
       );
 
-      if (conversion.mapImagePath != null) {
-        File(conversion.mapImagePath!).deleteSync();
-      }
       await conversionToDelete.delete();
       _log.info("Conversion deleted successfully");
       return Success("");

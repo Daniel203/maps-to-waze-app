@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:maps_to_waze/ui/core/themes/dimens.dart';
 import 'package:maps_to_waze/ui/home/view_model/home_viewmodel.dart';
 
 class UrlInput extends StatefulWidget {
@@ -30,27 +29,26 @@ class _UrlInputState extends State<UrlInput> {
     }
   }
 
+  String? _errorText() {
+    final text = widget.viewModel.urlTextController.text;
+    if (text.isEmpty) return null;
+    return widget.viewModel.valid ? null : "Enter a valid URL";
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(
-        top: Dimens.paddingVertical,
-        left: Dimens.of(context).paddingScreenHorizontal,
-        right: Dimens.of(context).paddingScreenHorizontal,
-        bottom: Dimens.of(context).paddingScreenVertical,
-      ),
-      child: TextField(
-        onChanged: widget.viewModel.urlChangedCommand.call,
-        controller: widget.viewModel.urlTextController,
-        decoration: InputDecoration(
-          border: OutlineInputBorder(),
-          labelText: "Maps URL",
-          suffixIcon: Tooltip(
-            message: "Paste from clipboard",
-            child: IconButton(
-              icon: const Icon(Icons.paste),
-              onPressed: () => widget.viewModel.pasteFromClipboard.execute(),
-            ),
+    return TextField(
+      onChanged: widget.viewModel.urlChangedCommand.call,
+      controller: widget.viewModel.urlTextController,
+      decoration: InputDecoration(
+        border: OutlineInputBorder(),
+        labelText: "Maps URL",
+        errorText: _errorText(),
+        suffixIcon: Tooltip(
+          message: "Paste from clipboard",
+          child: IconButton(
+            icon: const Icon(Icons.content_paste_go),
+            onPressed: () => widget.viewModel.pasteFromClipboard.execute(),
           ),
         ),
       ),

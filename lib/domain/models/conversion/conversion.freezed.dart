@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Conversion {
 
- Uri get url; Coordinates get coordinates; String? get mapImagePath; String? get addressLine1; String? get addressLine2; String? get formattedAddress; int get enrichmentAttempts;
+ Uri get url; Coordinates get coordinates; String? get mapImagePath; String? get addressLine1; String? get addressLine2; String? get formattedAddress; int get enrichmentAttempts; bool get isFavorite;
 /// Create a copy of Conversion
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $ConversionCopyWith<Conversion> get copyWith => _$ConversionCopyWithImpl<Convers
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Conversion&&(identical(other.url, url) || other.url == url)&&(identical(other.coordinates, coordinates) || other.coordinates == coordinates)&&(identical(other.mapImagePath, mapImagePath) || other.mapImagePath == mapImagePath)&&(identical(other.addressLine1, addressLine1) || other.addressLine1 == addressLine1)&&(identical(other.addressLine2, addressLine2) || other.addressLine2 == addressLine2)&&(identical(other.formattedAddress, formattedAddress) || other.formattedAddress == formattedAddress)&&(identical(other.enrichmentAttempts, enrichmentAttempts) || other.enrichmentAttempts == enrichmentAttempts));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Conversion&&(identical(other.url, url) || other.url == url)&&(identical(other.coordinates, coordinates) || other.coordinates == coordinates)&&(identical(other.mapImagePath, mapImagePath) || other.mapImagePath == mapImagePath)&&(identical(other.addressLine1, addressLine1) || other.addressLine1 == addressLine1)&&(identical(other.addressLine2, addressLine2) || other.addressLine2 == addressLine2)&&(identical(other.formattedAddress, formattedAddress) || other.formattedAddress == formattedAddress)&&(identical(other.enrichmentAttempts, enrichmentAttempts) || other.enrichmentAttempts == enrichmentAttempts)&&(identical(other.isFavorite, isFavorite) || other.isFavorite == isFavorite));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,url,coordinates,mapImagePath,addressLine1,addressLine2,formattedAddress,enrichmentAttempts);
+int get hashCode => Object.hash(runtimeType,url,coordinates,mapImagePath,addressLine1,addressLine2,formattedAddress,enrichmentAttempts,isFavorite);
 
 @override
 String toString() {
-  return 'Conversion(url: $url, coordinates: $coordinates, mapImagePath: $mapImagePath, addressLine1: $addressLine1, addressLine2: $addressLine2, formattedAddress: $formattedAddress, enrichmentAttempts: $enrichmentAttempts)';
+  return 'Conversion(url: $url, coordinates: $coordinates, mapImagePath: $mapImagePath, addressLine1: $addressLine1, addressLine2: $addressLine2, formattedAddress: $formattedAddress, enrichmentAttempts: $enrichmentAttempts, isFavorite: $isFavorite)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $ConversionCopyWith<$Res>  {
   factory $ConversionCopyWith(Conversion value, $Res Function(Conversion) _then) = _$ConversionCopyWithImpl;
 @useResult
 $Res call({
- Uri url, Coordinates coordinates, String? mapImagePath, String? addressLine1, String? addressLine2, String? formattedAddress, int enrichmentAttempts
+ Uri url, Coordinates coordinates, String? mapImagePath, String? addressLine1, String? addressLine2, String? formattedAddress, int enrichmentAttempts, bool isFavorite
 });
 
 
@@ -65,7 +65,7 @@ class _$ConversionCopyWithImpl<$Res>
 
 /// Create a copy of Conversion
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? url = null,Object? coordinates = null,Object? mapImagePath = freezed,Object? addressLine1 = freezed,Object? addressLine2 = freezed,Object? formattedAddress = freezed,Object? enrichmentAttempts = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? url = null,Object? coordinates = null,Object? mapImagePath = freezed,Object? addressLine1 = freezed,Object? addressLine2 = freezed,Object? formattedAddress = freezed,Object? enrichmentAttempts = null,Object? isFavorite = null,}) {
   return _then(_self.copyWith(
 url: null == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
 as Uri,coordinates: null == coordinates ? _self.coordinates : coordinates // ignore: cast_nullable_to_non_nullable
@@ -74,7 +74,8 @@ as String?,addressLine1: freezed == addressLine1 ? _self.addressLine1 : addressL
 as String?,addressLine2: freezed == addressLine2 ? _self.addressLine2 : addressLine2 // ignore: cast_nullable_to_non_nullable
 as String?,formattedAddress: freezed == formattedAddress ? _self.formattedAddress : formattedAddress // ignore: cast_nullable_to_non_nullable
 as String?,enrichmentAttempts: null == enrichmentAttempts ? _self.enrichmentAttempts : enrichmentAttempts // ignore: cast_nullable_to_non_nullable
-as int,
+as int,isFavorite: null == isFavorite ? _self.isFavorite : isFavorite // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 /// Create a copy of Conversion
@@ -168,10 +169,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( Uri url,  Coordinates coordinates,  String? mapImagePath,  String? addressLine1,  String? addressLine2,  String? formattedAddress,  int enrichmentAttempts)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( Uri url,  Coordinates coordinates,  String? mapImagePath,  String? addressLine1,  String? addressLine2,  String? formattedAddress,  int enrichmentAttempts,  bool isFavorite)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Conversion() when $default != null:
-return $default(_that.url,_that.coordinates,_that.mapImagePath,_that.addressLine1,_that.addressLine2,_that.formattedAddress,_that.enrichmentAttempts);case _:
+return $default(_that.url,_that.coordinates,_that.mapImagePath,_that.addressLine1,_that.addressLine2,_that.formattedAddress,_that.enrichmentAttempts,_that.isFavorite);case _:
   return orElse();
 
 }
@@ -189,10 +190,10 @@ return $default(_that.url,_that.coordinates,_that.mapImagePath,_that.addressLine
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( Uri url,  Coordinates coordinates,  String? mapImagePath,  String? addressLine1,  String? addressLine2,  String? formattedAddress,  int enrichmentAttempts)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( Uri url,  Coordinates coordinates,  String? mapImagePath,  String? addressLine1,  String? addressLine2,  String? formattedAddress,  int enrichmentAttempts,  bool isFavorite)  $default,) {final _that = this;
 switch (_that) {
 case _Conversion():
-return $default(_that.url,_that.coordinates,_that.mapImagePath,_that.addressLine1,_that.addressLine2,_that.formattedAddress,_that.enrichmentAttempts);case _:
+return $default(_that.url,_that.coordinates,_that.mapImagePath,_that.addressLine1,_that.addressLine2,_that.formattedAddress,_that.enrichmentAttempts,_that.isFavorite);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -209,10 +210,10 @@ return $default(_that.url,_that.coordinates,_that.mapImagePath,_that.addressLine
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( Uri url,  Coordinates coordinates,  String? mapImagePath,  String? addressLine1,  String? addressLine2,  String? formattedAddress,  int enrichmentAttempts)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( Uri url,  Coordinates coordinates,  String? mapImagePath,  String? addressLine1,  String? addressLine2,  String? formattedAddress,  int enrichmentAttempts,  bool isFavorite)?  $default,) {final _that = this;
 switch (_that) {
 case _Conversion() when $default != null:
-return $default(_that.url,_that.coordinates,_that.mapImagePath,_that.addressLine1,_that.addressLine2,_that.formattedAddress,_that.enrichmentAttempts);case _:
+return $default(_that.url,_that.coordinates,_that.mapImagePath,_that.addressLine1,_that.addressLine2,_that.formattedAddress,_that.enrichmentAttempts,_that.isFavorite);case _:
   return null;
 
 }
@@ -224,7 +225,7 @@ return $default(_that.url,_that.coordinates,_that.mapImagePath,_that.addressLine
 @JsonSerializable()
 
 class _Conversion implements Conversion {
-  const _Conversion({required this.url, required this.coordinates, this.mapImagePath, this.addressLine1, this.addressLine2, this.formattedAddress, this.enrichmentAttempts = 0});
+  const _Conversion({required this.url, required this.coordinates, this.mapImagePath, this.addressLine1, this.addressLine2, this.formattedAddress, this.enrichmentAttempts = 0, this.isFavorite = false});
   factory _Conversion.fromJson(Map<String, dynamic> json) => _$ConversionFromJson(json);
 
 @override final  Uri url;
@@ -234,6 +235,7 @@ class _Conversion implements Conversion {
 @override final  String? addressLine2;
 @override final  String? formattedAddress;
 @override@JsonKey() final  int enrichmentAttempts;
+@override@JsonKey() final  bool isFavorite;
 
 /// Create a copy of Conversion
 /// with the given fields replaced by the non-null parameter values.
@@ -248,16 +250,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Conversion&&(identical(other.url, url) || other.url == url)&&(identical(other.coordinates, coordinates) || other.coordinates == coordinates)&&(identical(other.mapImagePath, mapImagePath) || other.mapImagePath == mapImagePath)&&(identical(other.addressLine1, addressLine1) || other.addressLine1 == addressLine1)&&(identical(other.addressLine2, addressLine2) || other.addressLine2 == addressLine2)&&(identical(other.formattedAddress, formattedAddress) || other.formattedAddress == formattedAddress)&&(identical(other.enrichmentAttempts, enrichmentAttempts) || other.enrichmentAttempts == enrichmentAttempts));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Conversion&&(identical(other.url, url) || other.url == url)&&(identical(other.coordinates, coordinates) || other.coordinates == coordinates)&&(identical(other.mapImagePath, mapImagePath) || other.mapImagePath == mapImagePath)&&(identical(other.addressLine1, addressLine1) || other.addressLine1 == addressLine1)&&(identical(other.addressLine2, addressLine2) || other.addressLine2 == addressLine2)&&(identical(other.formattedAddress, formattedAddress) || other.formattedAddress == formattedAddress)&&(identical(other.enrichmentAttempts, enrichmentAttempts) || other.enrichmentAttempts == enrichmentAttempts)&&(identical(other.isFavorite, isFavorite) || other.isFavorite == isFavorite));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,url,coordinates,mapImagePath,addressLine1,addressLine2,formattedAddress,enrichmentAttempts);
+int get hashCode => Object.hash(runtimeType,url,coordinates,mapImagePath,addressLine1,addressLine2,formattedAddress,enrichmentAttempts,isFavorite);
 
 @override
 String toString() {
-  return 'Conversion(url: $url, coordinates: $coordinates, mapImagePath: $mapImagePath, addressLine1: $addressLine1, addressLine2: $addressLine2, formattedAddress: $formattedAddress, enrichmentAttempts: $enrichmentAttempts)';
+  return 'Conversion(url: $url, coordinates: $coordinates, mapImagePath: $mapImagePath, addressLine1: $addressLine1, addressLine2: $addressLine2, formattedAddress: $formattedAddress, enrichmentAttempts: $enrichmentAttempts, isFavorite: $isFavorite)';
 }
 
 
@@ -268,7 +270,7 @@ abstract mixin class _$ConversionCopyWith<$Res> implements $ConversionCopyWith<$
   factory _$ConversionCopyWith(_Conversion value, $Res Function(_Conversion) _then) = __$ConversionCopyWithImpl;
 @override @useResult
 $Res call({
- Uri url, Coordinates coordinates, String? mapImagePath, String? addressLine1, String? addressLine2, String? formattedAddress, int enrichmentAttempts
+ Uri url, Coordinates coordinates, String? mapImagePath, String? addressLine1, String? addressLine2, String? formattedAddress, int enrichmentAttempts, bool isFavorite
 });
 
 
@@ -285,7 +287,7 @@ class __$ConversionCopyWithImpl<$Res>
 
 /// Create a copy of Conversion
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? url = null,Object? coordinates = null,Object? mapImagePath = freezed,Object? addressLine1 = freezed,Object? addressLine2 = freezed,Object? formattedAddress = freezed,Object? enrichmentAttempts = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? url = null,Object? coordinates = null,Object? mapImagePath = freezed,Object? addressLine1 = freezed,Object? addressLine2 = freezed,Object? formattedAddress = freezed,Object? enrichmentAttempts = null,Object? isFavorite = null,}) {
   return _then(_Conversion(
 url: null == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
 as Uri,coordinates: null == coordinates ? _self.coordinates : coordinates // ignore: cast_nullable_to_non_nullable
@@ -294,7 +296,8 @@ as String?,addressLine1: freezed == addressLine1 ? _self.addressLine1 : addressL
 as String?,addressLine2: freezed == addressLine2 ? _self.addressLine2 : addressLine2 // ignore: cast_nullable_to_non_nullable
 as String?,formattedAddress: freezed == formattedAddress ? _self.formattedAddress : formattedAddress // ignore: cast_nullable_to_non_nullable
 as String?,enrichmentAttempts: null == enrichmentAttempts ? _self.enrichmentAttempts : enrichmentAttempts // ignore: cast_nullable_to_non_nullable
-as int,
+as int,isFavorite: null == isFavorite ? _self.isFavorite : isFavorite // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 

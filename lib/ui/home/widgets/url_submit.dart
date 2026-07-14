@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:maps_to_waze/ui/core/themes/dimens.dart';
+import 'package:flutter/services.dart';
 import 'package:maps_to_waze/ui/home/view_model/home_viewmodel.dart';
 
 const String urlInputSubmitButtonKey = 'url-input-submit-button';
@@ -34,20 +34,19 @@ class _UrlSubmitState extends State<UrlSubmit> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(
-        top: Dimens.paddingVertical,
-        left: Dimens.of(context).paddingScreenHorizontal,
-        right: Dimens.of(context).paddingScreenHorizontal,
-        bottom: Dimens.of(context).paddingScreenVertical,
-      ),
-      child: FilledButton(
+    return SizedBox(
+      width: double.infinity,
+      child: FilledButton.icon(
         key: const ValueKey(urlInputSubmitButtonKey),
         onPressed:
             widget.viewModel.valid
-                ? widget.viewModel.submitUrlCommand.execute
+                ? () {
+                    HapticFeedback.lightImpact();
+                    widget.viewModel.submitUrlCommand.execute();
+                  }
                 : null,
-        child: Text("Open in Waze"),
+        icon: const Icon(Icons.navigation),
+        label: const Text("Open in Waze"),
       ),
     );
   }

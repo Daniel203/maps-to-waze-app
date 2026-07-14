@@ -41,6 +41,14 @@ class HistoryRepository {
     }
   }
 
+  Future<Result> saveConversion(Conversion conversion) async {
+    try {
+      return await _localStorageService.saveConversion(conversion);
+    } on Exception catch (error) {
+      return Failure(error);
+    }
+  }
+
   Future<Result> updateConversion(Conversion conversion) async {
     try {
       return await _localStorageService.updateConversion(conversion);

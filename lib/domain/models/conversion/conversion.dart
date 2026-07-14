@@ -17,6 +17,7 @@ abstract class Conversion with _$Conversion {
     String? addressLine2,
     String? formattedAddress,
     @Default(0) int enrichmentAttempts,
+    @Default(false) bool isFavorite,
   }) = _Conversion;
 
   factory Conversion.fromJson(Map<String, dynamic> json) =>
@@ -40,6 +41,7 @@ abstract class Conversion with _$Conversion {
       addressLine2: conversionEntity.addressLine2,
       formattedAddress: conversionEntity.formattedAddress,
       enrichmentAttempts: conversionEntity.enrichmentAttempts,
+      isFavorite: conversionEntity.isFavorite,
     );
   }
 
