@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:developer' as developer;
+import 'dart:ui' show PlatformDispatcher;
 
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
@@ -14,20 +15,29 @@ import 'package:maps_to_waze/ui/core/themes/theme.dart';
 import 'package:provider/provider.dart';
 import 'package:receive_sharing_intent/receive_sharing_intent.dart';
 
-const _loggerLevel = String.fromEnvironment('loggerLevel', defaultValue: 'ALL');
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   Hive.initFlutter();
   Hive.registerAdapters();
 
-  Logger.root.level = _loggerLevel == 'INFO' ? Level.INFO : Level.ALL;
+  Logger.root.level = Level.ALL;
   Logger.root.onRecord.listen((record) {
-    developer.log(
-      '${record.level.name}: ${record.time}: ${record.message}',
-    );
+    print('${record.level.name}: ${record.message}');
   });
+
+  FlutterError.onError = (details) {
+    developer.log(
+      '${details.exception}',
+      error: details.exception,
+      stackTrace: details.stack,
+    );
+  };
+
+  PlatformDispatcher.instance.onError = (error, stack) {
+    developer.log('$error', error: error, stackTrace: stack);
+    return true;
+  };
 
   runApp(MultiProvider(providers: providers, child: const MainApp()));
 }

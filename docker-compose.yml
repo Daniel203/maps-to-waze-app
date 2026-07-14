@@ -10,6 +10,8 @@ services:
       - pub_cache:/home/developer/.pub-cache    
       - dart_tool_cache:/app/.dart_tool
       - app_build_cache:/app/build
+      - android_sdk:/opt/android-sdk
+      - android_keystore:/home/developer/.android
     network_mode: host
     privileged: true
     stdin_open: true
@@ -20,3 +22,5 @@ volumes:
   pub_cache:
   dart_tool_cache:
   app_build_cache:
+  android_sdk:
+  android_keystore:

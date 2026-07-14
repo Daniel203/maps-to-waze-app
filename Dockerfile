@@ -24,7 +24,7 @@ RUN mkdir -p ${ANDROID_HOME}/cmdline-tools && \
 
 # Accept licenses and install required SDK components
 RUN yes | sdkmanager --licenses && \
-    sdkmanager "platform-tools" "platforms;android-33" "build-tools;33.0.2"
+    sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0"
 
 # Install Flutter SDK
 RUN git clone https://github.com/flutter/flutter.git -b stable ${FLUTTER_HOME} && \
